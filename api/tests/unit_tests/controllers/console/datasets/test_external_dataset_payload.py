@@ -9,9 +9,8 @@ full Flask/RESTX request stack.
 """
 
 import pytest
-from pydantic import ValidationError
-
 from controllers.console.datasets.external import ExternalDatasetCreatePayload
+from pydantic import ValidationError
 
 
 def test_external_dataset_create_payload_allows_name_length_100() -> None:

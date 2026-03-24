@@ -16,10 +16,6 @@ from types import SimpleNamespace
 from unittest.mock import Mock, patch
 
 import pytest
-from pydantic import ValidationError
-from werkzeug.exceptions import BadRequest, NotFound
-
-import services
 from controllers.service_api.app.completion import (
     ChatApi,
     ChatRequestPayload,
@@ -28,6 +24,10 @@ from controllers.service_api.app.completion import (
     CompletionRequestPayload,
     CompletionStopApi,
 )
+from pydantic import ValidationError
+from werkzeug.exceptions import BadRequest, NotFound
+
+import services
 from controllers.service_api.app.error import (
     AppUnavailableError,
     ConversationCompletedError,

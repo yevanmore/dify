@@ -117,10 +117,6 @@ const List: FC<Props> = ({
   const options = [
     { value: 'all', text: t('types.all', { ns: 'app' }), icon: <span className="i-ri-apps-2-line mr-1 h-[14px] w-[14px]" /> },
     { value: AppModeEnum.WORKFLOW, text: t('types.workflow', { ns: 'app' }), icon: <span className="i-ri-exchange-2-line mr-1 h-[14px] w-[14px]" /> },
-    { value: AppModeEnum.ADVANCED_CHAT, text: t('types.advanced', { ns: 'app' }), icon: <span className="i-ri-message-3-line mr-1 h-[14px] w-[14px]" /> },
-    { value: AppModeEnum.CHAT, text: t('types.chatbot', { ns: 'app' }), icon: <span className="i-ri-message-3-line mr-1 h-[14px] w-[14px]" /> },
-    { value: AppModeEnum.AGENT_CHAT, text: t('types.agent', { ns: 'app' }), icon: <span className="i-ri-robot-3-line mr-1 h-[14px] w-[14px]" /> },
-    { value: AppModeEnum.COMPLETION, text: t('types.completion', { ns: 'app' }), icon: <span className="i-ri-file-4-line mr-1 h-[14px] w-[14px]" /> },
   ]
 
   useEffect(() => {

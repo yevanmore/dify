@@ -9,12 +9,12 @@ dataset retrieval and external knowledge base retrieval.
 from unittest.mock import MagicMock, Mock, patch
 
 import pytest
+from services.hit_testing_service import HitTestingService
 
 from core.rag.models.document import Document
 from core.rag.retrieval.retrieval_methods import RetrievalMethod
 from models import Account
 from models.dataset import Dataset
-from services.hit_testing_service import HitTestingService
 
 
 class HitTestingTestDataFactory:

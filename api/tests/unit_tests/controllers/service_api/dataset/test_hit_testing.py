@@ -18,10 +18,10 @@ import uuid
 from unittest.mock import Mock, patch
 
 import pytest
+from controllers.service_api.dataset.hit_testing import HitTestingApi, HitTestingPayload
 from werkzeug.exceptions import Forbidden, NotFound
 
 import services
-from controllers.service_api.dataset.hit_testing import HitTestingApi, HitTestingPayload
 from models.account import Account
 
 # ---------------------------------------------------------------------------

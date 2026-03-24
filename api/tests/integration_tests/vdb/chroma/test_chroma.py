@@ -1,6 +1,6 @@
 import chromadb
-
 from core.rag.datasource.vdb.chroma.chroma_vector import ChromaConfig, ChromaVector
+
 from tests.integration_tests.vdb.test_vector_store import (
     AbstractVectorTest,
     get_example_text,

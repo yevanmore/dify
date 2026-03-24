@@ -85,9 +85,7 @@ const AppDetailLayout: FC<IAppDetailLayoutProps> = (props) => {
       },
       ...(isCurrentWorkspaceEditor
         ? [{
-            name: mode !== AppModeEnum.WORKFLOW
-              ? t('appMenus.logAndAnn', { ns: 'common' })
-              : t('appMenus.logs', { ns: 'common' }),
+            name: t('appMenus.logs', { ns: 'common' }),
             href: `/app/${appId}/logs`,
             icon: RiFileList3Line,
             selectedIcon: RiFileList3Fill,

@@ -3,12 +3,12 @@ from unittest.mock import MagicMock, create_autospec, patch
 
 import pytest
 from faker import Faker
+from services.agent_service import AgentService
 
 from core.plugin.impl.exc import PluginDaemonClientSideError
 from models import Account
 from models.model import AppModelConfig, Conversation, EndUser, Message, MessageAgentThought
 from services.account_service import AccountService, TenantService
-from services.agent_service import AgentService
 from services.app_service import AppService
 
 

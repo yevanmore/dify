@@ -1,7 +1,6 @@
 import pytest
-from pydantic import ValidationError
-
 from core.rag.datasource.vdb.milvus.milvus_vector import MilvusConfig
+from pydantic import ValidationError
 
 
 def test_default_value():

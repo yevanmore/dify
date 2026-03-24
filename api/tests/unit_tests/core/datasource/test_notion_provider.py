@@ -19,12 +19,12 @@ from unittest.mock import Mock, patch
 
 import httpx
 import pytest
+from core.rag.extractor.notion_extractor import NotionExtractor
 
 from core.datasource.entities.datasource_entities import DatasourceProviderType
 from core.datasource.online_document.online_document_provider import (
     OnlineDocumentDatasourcePluginProviderController,
 )
-from core.rag.extractor.notion_extractor import NotionExtractor
 from core.rag.models.document import Document
 
 

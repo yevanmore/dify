@@ -22,16 +22,8 @@ vi.mock('@/app/components/header/app-nav', () => ({
   default: createMockComponent('app-nav'),
 }))
 
-vi.mock('@/app/components/header/dataset-nav', () => ({
-  default: createMockComponent('dataset-nav'),
-}))
-
 vi.mock('@/app/components/header/env-nav', () => ({
   default: createMockComponent('env-nav'),
-}))
-
-vi.mock('@/app/components/header/explore-nav', () => ({
-  default: createMockComponent('explore-nav'),
 }))
 
 vi.mock('@/app/components/header/license-env', () => ({
@@ -60,8 +52,6 @@ vi.mock('next/link', () => ({
   default: ({ children, href }: { children?: React.ReactNode, href?: string }) => <a href={href}>{children}</a>,
 }))
 
-let mockIsWorkspaceEditor = false
-let mockIsDatasetOperator = false
 let mockMedia = 'desktop'
 let mockEnableBilling = false
 let mockPlanType = 'sandbox'
@@ -72,10 +62,7 @@ const mockSetShowPricingModal = vi.fn()
 const mockSetShowAccountSettingModal = vi.fn()
 
 vi.mock('@/context/app-context', () => ({
-  useAppContext: () => ({
-    isCurrentWorkspaceEditor: mockIsWorkspaceEditor,
-    isCurrentWorkspaceDatasetOperator: mockIsDatasetOperator,
-  }),
+  useAppContext: () => ({}),
 }))
 
 vi.mock('@/hooks/use-breakpoints', () => ({
@@ -116,8 +103,6 @@ vi.mock('@/context/global-public-context', () => {
 describe('Header', () => {
   beforeEach(() => {
     vi.clearAllMocks()
-    mockIsWorkspaceEditor = false
-    mockIsDatasetOperator = false
     mockMedia = 'desktop'
     mockEnableBilling = false
     mockPlanType = 'sandbox'
@@ -145,14 +130,6 @@ describe('Header', () => {
     rerender(<Header />)
     expect(screen.queryByTestId('license-nav')).not.toBeInTheDocument()
     expect(screen.getByTestId('plan-badge')).toBeInTheDocument()
-  })
-
-  it('should hide explore nav when user is dataset operator', () => {
-    mockIsDatasetOperator = true
-    render(<Header />)
-
-    expect(screen.queryByTestId('explore-nav')).not.toBeInTheDocument()
-    expect(screen.getByTestId('dataset-nav')).toBeInTheDocument()
   })
 
   it('should call pricing modal for free plan, settings modal for paid plan', () => {

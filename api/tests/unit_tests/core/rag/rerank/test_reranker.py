@@ -15,14 +15,14 @@ Tests follow the Arrange-Act-Assert pattern for clarity.
 from unittest.mock import MagicMock, Mock, patch
 
 import pytest
-
-from core.model_manager import ModelInstance
-from core.rag.models.document import Document
 from core.rag.rerank.entity.weight import KeywordSetting, VectorSetting, Weights
 from core.rag.rerank.rerank_factory import RerankRunnerFactory
 from core.rag.rerank.rerank_model import RerankModelRunner
 from core.rag.rerank.rerank_type import RerankMode
 from core.rag.rerank.weight_rerank import WeightRerankRunner
+
+from core.model_manager import ModelInstance
+from core.rag.models.document import Document
 from dify_graph.model_runtime.entities.rerank_entities import RerankDocument, RerankResult
 
 

@@ -7,6 +7,7 @@ from pathlib import Path
 import click
 import pandas as pd
 from celery import shared_task
+from services.vector_service import VectorService
 from sqlalchemy import func
 
 from core.db.session_factory import session_factory
@@ -18,7 +19,6 @@ from libs import helper
 from libs.datetime_utils import naive_utc_now
 from models.dataset import Dataset, Document, DocumentSegment
 from models.model import UploadFile
-from services.vector_service import VectorService
 
 logger = logging.getLogger(__name__)
 

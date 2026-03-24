@@ -18,8 +18,6 @@ import uuid
 from unittest.mock import Mock, patch
 
 import pytest
-from werkzeug.exceptions import NotFound
-
 from controllers.service_api.dataset.segment import (
     ChildChunkApi,
     ChildChunkCreatePayload,
@@ -31,6 +29,8 @@ from controllers.service_api.dataset.segment import (
     SegmentCreatePayload,
     SegmentListQuery,
 )
+from werkzeug.exceptions import NotFound
+
 from models.dataset import ChildChunk, Dataset, Document, DocumentSegment
 from services.dataset_service import DocumentService, SegmentService
 
@@ -479,6 +479,7 @@ class TestSegmentUpdatePayload:
     def test_payload_with_segment_args(self):
         """Test payload with SegmentUpdateArgs."""
         from controllers.service_api.dataset.segment import SegmentUpdatePayload
+
         from services.entities.knowledge_entities.knowledge_entities import SegmentUpdateArgs
 
         segment_args = SegmentUpdateArgs(content="Updated content")
@@ -488,6 +489,7 @@ class TestSegmentUpdatePayload:
     def test_payload_with_answer_update(self):
         """Test payload with answer update."""
         from controllers.service_api.dataset.segment import SegmentUpdatePayload
+
         from services.entities.knowledge_entities.knowledge_entities import SegmentUpdateArgs
 
         segment_args = SegmentUpdateArgs(answer="Updated answer")
@@ -497,6 +499,7 @@ class TestSegmentUpdatePayload:
     def test_payload_with_keywords_update(self):
         """Test payload with keywords update."""
         from controllers.service_api.dataset.segment import SegmentUpdatePayload
+
         from services.entities.knowledge_entities.knowledge_entities import SegmentUpdateArgs
 
         segment_args = SegmentUpdateArgs(keywords=["new", "keywords"])
@@ -506,6 +509,7 @@ class TestSegmentUpdatePayload:
     def test_payload_with_enabled_toggle(self):
         """Test payload with enabled toggle."""
         from controllers.service_api.dataset.segment import SegmentUpdatePayload
+
         from services.entities.knowledge_entities.knowledge_entities import SegmentUpdateArgs
 
         segment_args = SegmentUpdateArgs(enabled=True)
@@ -515,6 +519,7 @@ class TestSegmentUpdatePayload:
     def test_payload_with_regenerate_child_chunks(self):
         """Test payload with regenerate_child_chunks flag."""
         from controllers.service_api.dataset.segment import SegmentUpdatePayload
+
         from services.entities.knowledge_entities.knowledge_entities import SegmentUpdateArgs
 
         segment_args = SegmentUpdateArgs(regenerate_child_chunks=True)

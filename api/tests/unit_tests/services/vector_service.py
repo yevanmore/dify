@@ -117,13 +117,13 @@ This test suite follows a comprehensive testing strategy that covers:
 from unittest.mock import Mock, patch
 
 import pytest
-
 from core.rag.datasource.vdb.vector_base import BaseVector
+from services.vector_service import VectorService
+
 from core.rag.datasource.vdb.vector_factory import Vector
 from core.rag.datasource.vdb.vector_type import VectorType
 from core.rag.models.document import Document
 from models.dataset import ChildChunk, Dataset, DatasetDocument, DatasetProcessRule, DocumentSegment
-from services.vector_service import VectorService
 
 # ============================================================================
 # Test Data Factory

@@ -2,9 +2,9 @@ import os
 from unittest.mock import MagicMock
 
 import pytest
+from core.rag.extractor.firecrawl.firecrawl_app import FirecrawlApp
 from pytest_mock import MockerFixture
 
-from core.rag.extractor.firecrawl.firecrawl_app import FirecrawlApp
 from tests.unit_tests.core.rag.extractor.test_notion_extractor import _mock_response
 
 

@@ -129,8 +129,6 @@ import string
 from unittest.mock import Mock, patch
 
 import pytest
-
-from core.rag.models.document import Document
 from core.rag.splitter.fixed_text_splitter import (
     EnhanceRecursiveCharacterTextSplitter,
     FixedRecursiveCharacterTextSplitter,
@@ -142,6 +140,8 @@ from core.rag.splitter.text_splitter import (
     _split_text_with_regex,
     split_text_on_tokens,
 )
+
+from core.rag.models.document import Document
 
 # ============================================================================
 # Test Fixtures

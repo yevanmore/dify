@@ -3,11 +3,11 @@ import uuid
 
 import tablestore
 from _pytest.python_api import approx
-
 from core.rag.datasource.vdb.tablestore.tablestore_vector import (
     TableStoreConfig,
     TableStoreVector,
 )
+
 from tests.integration_tests.vdb.test_vector_store import (
     AbstractVectorTest,
     get_example_document,

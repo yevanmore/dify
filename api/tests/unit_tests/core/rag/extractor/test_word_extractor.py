@@ -6,12 +6,11 @@ import tempfile
 from pathlib import Path
 from types import SimpleNamespace
 
+import core.rag.extractor.word_extractor as we
+from core.rag.extractor.word_extractor import WordExtractor
 from docx import Document
 from docx.oxml import OxmlElement
 from docx.oxml.ns import qn
-
-import core.rag.extractor.word_extractor as we
-from core.rag.extractor.word_extractor import WordExtractor
 
 
 def _generate_table_with_merged_cells():

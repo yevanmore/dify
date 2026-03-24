@@ -17,8 +17,6 @@ from types import SimpleNamespace
 from unittest.mock import Mock
 
 import pytest
-from flask_restx.api import HTTPStatus
-
 from controllers.service_api.app.annotation import (
     AnnotationCreatePayload,
     AnnotationListApi,
@@ -27,6 +25,8 @@ from controllers.service_api.app.annotation import (
     AnnotationReplyActionStatusApi,
     AnnotationUpdateDeleteApi,
 )
+from flask_restx.api import HTTPStatus
+
 from extensions.ext_redis import redis_client
 from models.model import App
 from services.annotation_service import AppAnnotationService

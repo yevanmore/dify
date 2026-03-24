@@ -13,10 +13,10 @@ from types import SimpleNamespace
 from unittest.mock import Mock, patch
 
 import pytest
+from controllers.service_api.app.audio import AudioApi, TextApi, TextToAudioPayload
 from werkzeug.datastructures import FileStorage
 from werkzeug.exceptions import InternalServerError
 
-from controllers.service_api.app.audio import AudioApi, TextApi, TextToAudioPayload
 from controllers.service_api.app.error import (
     AppUnavailableError,
     AudioTooLargeError,

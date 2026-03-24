@@ -19,8 +19,6 @@ import uuid
 from unittest.mock import Mock, patch
 
 import pytest
-from werkzeug.exceptions import NotFound
-
 from controllers.service_api.dataset.metadata import (
     DatasetMetadataBuiltInFieldActionServiceApi,
     DatasetMetadataBuiltInFieldServiceApi,
@@ -28,6 +26,8 @@ from controllers.service_api.dataset.metadata import (
     DatasetMetadataServiceApi,
     DocumentMetadataEditServiceApi,
 )
+from werkzeug.exceptions import NotFound
+
 from tests.unit_tests.controllers.service_api.conftest import _unwrap
 
 

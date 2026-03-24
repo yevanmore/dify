@@ -19,8 +19,6 @@ import uuid
 from unittest.mock import Mock, patch
 
 import pytest
-from werkzeug.exceptions import Forbidden, NotFound
-
 from controllers.service_api.dataset.document import (
     DocumentAddByFileApi,
     DocumentAddByTextApi,
@@ -35,6 +33,8 @@ from controllers.service_api.dataset.document import (
     InvalidMetadataError,
 )
 from controllers.service_api.dataset.error import ArchivedDocumentImmutableError
+from werkzeug.exceptions import Forbidden, NotFound
+
 from services.dataset_service import DocumentService
 from services.entities.knowledge_entities.knowledge_entities import ProcessRule, RetrievalModel
 

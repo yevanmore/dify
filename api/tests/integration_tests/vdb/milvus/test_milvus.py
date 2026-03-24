@@ -1,4 +1,5 @@
 from core.rag.datasource.vdb.milvus.milvus_vector import MilvusConfig, MilvusVector
+
 from tests.integration_tests.vdb.test_vector_store import (
     AbstractVectorTest,
     get_example_text,

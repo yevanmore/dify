@@ -2,9 +2,8 @@ import os
 
 import pytest
 from _pytest.monkeypatch import MonkeyPatch
-from elasticsearch import Elasticsearch
-
 from core.rag.datasource.vdb.field import Field
+from elasticsearch import Elasticsearch
 
 
 class MockIndicesClient:

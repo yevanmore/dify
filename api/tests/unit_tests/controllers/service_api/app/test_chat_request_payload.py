@@ -1,9 +1,8 @@
 import uuid
 
 import pytest
-from pydantic import ValidationError
-
 from controllers.service_api.app.completion import ChatRequestPayload
+from pydantic import ValidationError
 
 
 def test_chat_request_payload_accepts_blank_conversation_id():

@@ -87,6 +87,7 @@ This test suite follows a comprehensive testing strategy that covers:
 from unittest.mock import Mock, patch
 
 import pytest
+from services.metadata_service import MetadataService
 
 from core.rag.index_processor.constant.built_in_field import BuiltInField
 from models.dataset import Dataset, DatasetMetadata, DatasetMetadataBinding
@@ -94,7 +95,6 @@ from services.entities.knowledge_entities.knowledge_entities import (
     MetadataArgs,
     MetadataValue,
 )
-from services.metadata_service import MetadataService
 
 # ============================================================================
 # Test Data Factory

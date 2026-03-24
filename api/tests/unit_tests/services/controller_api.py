@@ -86,14 +86,14 @@ from unittest.mock import Mock, patch
 from uuid import uuid4
 
 import pytest
-from flask import Flask
-from flask_restx import Api
-
 from controllers.console.datasets.datasets import DatasetApi, DatasetListApi
 from controllers.console.datasets.external import (
     ExternalApiTemplateListApi,
 )
 from controllers.console.datasets.hit_testing import HitTestingApi
+from flask import Flask
+from flask_restx import Api
+
 from models.dataset import Dataset, DatasetPermissionEnum
 
 # ============================================================================

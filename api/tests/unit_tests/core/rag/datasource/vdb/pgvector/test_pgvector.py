@@ -2,7 +2,6 @@ import unittest
 from unittest.mock import MagicMock, patch
 
 import pytest
-
 from core.rag.datasource.vdb.pgvector.pgvector import (
     PGVector,
     PGVectorConfig,

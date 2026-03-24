@@ -44,7 +44,6 @@ Tests fetching individual app details:
 from unittest.mock import MagicMock, patch
 
 import pytest
-
 from services.recommended_app_service import RecommendedAppService
 
 

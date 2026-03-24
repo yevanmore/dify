@@ -19,9 +19,6 @@ from types import SimpleNamespace
 from unittest.mock import Mock, patch
 
 import pytest
-from werkzeug.exceptions import Forbidden, NotFound
-
-import services
 from controllers.service_api.dataset.dataset import (
     DatasetCreatePayload,
     DatasetListQuery,
@@ -33,6 +30,9 @@ from controllers.service_api.dataset.dataset import (
     TagUpdatePayload,
 )
 from controllers.service_api.dataset.error import DatasetInUseError, DatasetNameDuplicateError, InvalidActionError
+from werkzeug.exceptions import Forbidden, NotFound
+
+import services
 from models.account import Account
 from models.dataset import DatasetPermissionEnum
 from services.dataset_service import DatasetPermissionService, DatasetService, DocumentService
@@ -305,6 +305,7 @@ class TestDatasetTagsApi:
         """Test successful creation of a dataset tag."""
         # Arrange
         from controllers.service_api.dataset import dataset as dataset_module
+
         from models.account import Account
 
         mock_account = Mock(spec=Account)
@@ -339,9 +340,9 @@ class TestDatasetTagsApi:
     def test_create_tag_forbidden(self, app):
         """Test tag creation without edit permissions."""
         # Arrange
+        from controllers.service_api.dataset import dataset as dataset_module
         from werkzeug.exceptions import Forbidden
 
-        from controllers.service_api.dataset import dataset as dataset_module
         from models.account import Account
 
         mock_account = Mock(spec=Account)
@@ -368,6 +369,7 @@ class TestDatasetTagsApi:
         """Test successful update of a dataset tag."""
         # Arrange
         from controllers.service_api.dataset import dataset as dataset_module
+
         from models.account import Account
 
         mock_account = Mock(spec=Account)
@@ -407,6 +409,7 @@ class TestDatasetTagsApi:
         """Test successful deletion of a dataset tag."""
         # Arrange
         from controllers.service_api.dataset import dataset as dataset_module
+
         from models.account import Account
 
         mock_account = Mock(spec=Account)
@@ -450,6 +453,7 @@ class TestDatasetTagBindingApi:
         """Test successful binding of tags to dataset."""
         # Arrange
         from controllers.service_api.dataset import dataset as dataset_module
+
         from models.account import Account
 
         mock_account = Mock(spec=Account)
@@ -481,9 +485,9 @@ class TestDatasetTagBindingApi:
     def test_bind_tags_forbidden(self, app):
         """Test tag binding without edit permissions."""
         # Arrange
+        from controllers.service_api.dataset import dataset as dataset_module
         from werkzeug.exceptions import Forbidden
 
-        from controllers.service_api.dataset import dataset as dataset_module
         from models.account import Account
 
         mock_account = Mock(spec=Account)
@@ -522,6 +526,7 @@ class TestDatasetTagUnbindingApi:
         """Test successful unbinding of tag from dataset."""
         # Arrange
         from controllers.service_api.dataset import dataset as dataset_module
+
         from models.account import Account
 
         mock_account = Mock(spec=Account)
@@ -568,6 +573,7 @@ class TestDatasetTagsBindingStatusApi:
         """Test retrieval of tags bound to a specific dataset."""
         # Arrange
         from controllers.service_api.dataset import dataset as dataset_module
+
         from models.account import Account
 
         mock_account = Mock(spec=Account)
@@ -636,9 +642,8 @@ class TestDocumentStatusApi:
         # Arrange
         mock_dataset_service.get_dataset.return_value = None
 
-        from werkzeug.exceptions import NotFound
-
         from controllers.service_api.dataset.dataset import DocumentStatusApi
+        from werkzeug.exceptions import NotFound
 
         # Act & Assert
         with app.test_request_context("/", method="PATCH", json={"document_ids": ["doc_1"]}):
@@ -658,9 +663,8 @@ class TestDocumentStatusApi:
 
         mock_dataset_service.check_dataset_permission.side_effect = NoPermissionError("No permission")
 
-        from werkzeug.exceptions import Forbidden
-
         from controllers.service_api.dataset.dataset import DocumentStatusApi
+        from werkzeug.exceptions import Forbidden
 
         # Act & Assert
         with app.test_request_context("/", method="PATCH", json={"document_ids": ["doc_1"]}):

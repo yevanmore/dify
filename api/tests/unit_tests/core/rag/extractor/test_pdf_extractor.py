@@ -1,9 +1,8 @@
 from types import SimpleNamespace
 from unittest.mock import MagicMock, patch
 
-import pytest
-
 import core.rag.extractor.pdf_extractor as pe
+import pytest
 
 
 @pytest.fixture

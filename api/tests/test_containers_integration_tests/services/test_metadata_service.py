@@ -2,12 +2,12 @@ from unittest.mock import create_autospec, patch
 
 import pytest
 from faker import Faker
+from services.metadata_service import MetadataService
 
 from core.rag.index_processor.constant.built_in_field import BuiltInField
 from models import Account, Tenant, TenantAccountJoin, TenantAccountRole
 from models.dataset import Dataset, DatasetMetadata, DatasetMetadataBinding, Document
 from services.entities.knowledge_entities.knowledge_entities import MetadataArgs
-from services.metadata_service import MetadataService
 
 
 class TestMetadataService:

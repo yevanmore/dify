@@ -1,6 +1,7 @@
 import uuid
 
 from core.rag.datasource.vdb.qdrant.qdrant_vector import QdrantConfig, QdrantVector
+
 from core.rag.models.document import Document
 from tests.integration_tests.vdb.test_vector_store import (
     AbstractVectorTest,

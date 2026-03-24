@@ -4,11 +4,11 @@ import time
 
 import click
 from celery import shared_task
+from core.rag.extractor.notion_extractor import NotionExtractor
 from sqlalchemy import delete, select
 
 from core.db.session_factory import session_factory
 from core.indexing_runner import DocumentIsPausedError, IndexingRunner
-from core.rag.extractor.notion_extractor import NotionExtractor
 from core.rag.index_processor.index_processor_factory import IndexProcessorFactory
 from libs.datetime_utils import naive_utc_now
 from models.dataset import Dataset, Document, DocumentSegment

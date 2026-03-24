@@ -49,10 +49,10 @@ from unittest.mock import Mock, patch
 
 import numpy as np
 import pytest
+from core.rag.embedding.cached_embedding import CacheEmbedding
 from sqlalchemy.exc import IntegrityError
 
 from core.entities.embedding_type import EmbeddingInputType
-from core.rag.embedding.cached_embedding import CacheEmbedding
 from dify_graph.model_runtime.entities.model_entities import ModelPropertyKey
 from dify_graph.model_runtime.entities.text_embedding_entities import EmbeddingResult, EmbeddingUsage
 from dify_graph.model_runtime.errors.invoke import (

@@ -2,6 +2,7 @@ import unittest
 from unittest.mock import MagicMock, patch
 
 import pytest
+from services.metadata_service import MetadataService
 
 from models.dataset import Dataset, Document
 from services.entities.knowledge_entities.knowledge_entities import (
@@ -9,7 +10,6 @@ from services.entities.knowledge_entities.knowledge_entities import (
     MetadataDetail,
     MetadataOperationData,
 )
-from services.metadata_service import MetadataService
 
 
 class TestMetadataPartialUpdate(unittest.TestCase):

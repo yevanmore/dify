@@ -1,7 +1,7 @@
 import pytest
+from controllers.console.explore.conversation import ConversationRenamePayload as ConsolePayload
 from pydantic import ValidationError
 
-from controllers.console.explore.conversation import ConversationRenamePayload as ConsolePayload
 from controllers.service_api.app.conversation import ConversationRenamePayload as ServicePayload
 
 

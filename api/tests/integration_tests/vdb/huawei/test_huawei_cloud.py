@@ -1,4 +1,5 @@
 from core.rag.datasource.vdb.huawei.huawei_cloud_vector import HuaweiCloudVector, HuaweiCloudVectorConfig
+
 from tests.integration_tests.vdb.__mock.huaweicloudvectordb import setup_client_mock
 from tests.integration_tests.vdb.test_vector_store import AbstractVectorTest, get_example_text, setup_mock_redis
 

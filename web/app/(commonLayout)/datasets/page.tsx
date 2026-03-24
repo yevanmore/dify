@@ -1,7 +1,7 @@
-import List from '../../components/datasets/list'
+import { redirect } from 'next/navigation'
 
-const DatasetList = async () => {
-  return <List />
+const DatasetList = () => {
+  redirect('/apps')
 }
 
 export default DatasetList

@@ -5,11 +5,11 @@ import time
 
 import click
 from celery import shared_task
+from services.summary_index_service import SummaryIndexService
 
 from core.db.session_factory import session_factory
 from models.dataset import Dataset, DocumentSegment
 from models.dataset import Document as DatasetDocument
-from services.summary_index_service import SummaryIndexService
 
 logger = logging.getLogger(__name__)
 

@@ -15,7 +15,9 @@ and ensure proper handling of crawl options, status checking, and data retrieval
 from unittest.mock import Mock, patch
 
 import pytest
+from core.rag.extractor.watercrawl.provider import WaterCrawlProvider
 from pytest_mock import MockerFixture
+from services.website_service import CrawlOptions, CrawlRequest, WebsiteService
 
 from core.datasource.entities.datasource_entities import (
     DatasourceEntity,
@@ -26,8 +28,6 @@ from core.datasource.entities.datasource_entities import (
 )
 from core.datasource.website_crawl.website_crawl_plugin import WebsiteCrawlDatasourcePlugin
 from core.datasource.website_crawl.website_crawl_provider import WebsiteCrawlDatasourcePluginProviderController
-from core.rag.extractor.watercrawl.provider import WaterCrawlProvider
-from services.website_service import CrawlOptions, CrawlRequest, WebsiteService
 
 # ============================================================================
 # Fixtures

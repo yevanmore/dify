@@ -4,6 +4,7 @@ from unittest.mock import MagicMock
 
 import pytest
 from _pytest.monkeypatch import MonkeyPatch
+from core.rag.datasource.vdb.field import Field as vdb_Field
 from volcengine.viking_db import (
     Collection,
     Data,
@@ -16,8 +17,6 @@ from volcengine.viking_db import (
     VectorIndexParams,
     VikingDBService,
 )
-
-from core.rag.datasource.vdb.field import Field as vdb_Field
 
 
 class MockVikingDBClass:

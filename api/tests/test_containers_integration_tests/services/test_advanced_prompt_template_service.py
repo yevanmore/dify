@@ -2,6 +2,7 @@ import copy
 
 import pytest
 from faker import Faker
+from services.advanced_prompt_template_service import AdvancedPromptTemplateService
 
 from core.prompt.prompt_templates.advanced_prompt_templates import (
     BAICHUAN_CHAT_APP_CHAT_PROMPT_CONFIG,
@@ -16,7 +17,6 @@ from core.prompt.prompt_templates.advanced_prompt_templates import (
     CONTEXT,
 )
 from models.model import AppMode
-from services.advanced_prompt_template_service import AdvancedPromptTemplateService
 
 
 class TestAdvancedPromptTemplateService:

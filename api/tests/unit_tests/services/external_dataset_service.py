@@ -23,6 +23,7 @@ from unittest.mock import MagicMock, Mock, patch
 
 import httpx
 import pytest
+from services.external_knowledge_service import ExternalDatasetService
 
 from constants import HIDDEN_VALUE
 from models.dataset import Dataset, ExternalKnowledgeApis, ExternalKnowledgeBindings
@@ -32,7 +33,6 @@ from services.entities.external_knowledge_entities.external_knowledge_entities i
     ExternalKnowledgeApiSetting,
 )
 from services.errors.dataset import DatasetNameDuplicateError
-from services.external_knowledge_service import ExternalDatasetService
 
 
 class ExternalDatasetTestDataFactory:

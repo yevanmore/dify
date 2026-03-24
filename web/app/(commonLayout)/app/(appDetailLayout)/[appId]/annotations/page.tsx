@@ -1,15 +1,12 @@
-import * as React from 'react'
-import Main from '@/app/components/app/log-annotation'
-import { PageType } from '@/app/components/base/features/new-feature-panel/annotation-reply/type'
+import { redirect } from 'next/navigation'
 
-export type IProps = {
+type IProps = {
   params: Promise<{ appId: string }>
 }
 
-const Logs = async () => {
-  return (
-    <Main pageType={PageType.annotation} />
-  )
+const AnnotationsRedirect = async ({ params }: IProps) => {
+  const { appId } = await params
+  redirect(`/app/${appId}/logs`)
 }
 
-export default Logs
+export default AnnotationsRedirect

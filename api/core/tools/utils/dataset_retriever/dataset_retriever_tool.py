@@ -1,6 +1,7 @@
 from typing import Any, cast
 
 from pydantic import BaseModel, Field
+from services.external_knowledge_service import ExternalDatasetService
 from sqlalchemy import select
 
 from core.app.app_config.entities import DatasetRetrieveConfigEntity, ModelConfig
@@ -14,7 +15,6 @@ from core.tools.utils.dataset_retriever.dataset_retriever_base_tool import Datas
 from extensions.ext_database import db
 from models.dataset import Dataset
 from models.dataset import Document as DatasetDocument
-from services.external_knowledge_service import ExternalDatasetService
 
 default_retrieval_model: dict[str, Any] = {
     "search_method": RetrievalMethod.SEMANTIC_SEARCH,

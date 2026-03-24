@@ -1,4 +1,5 @@
 from core.rag.datasource.vdb.pgvector.pgvector import PGVector, PGVectorConfig
+
 from tests.integration_tests.vdb.test_vector_store import (
     AbstractVectorTest,
     get_example_text,
