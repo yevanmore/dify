@@ -1,94 +1,73 @@
+"""Stub module - Agent subsystem removed. Only entity classes retained for compatibility."""
+
 from enum import StrEnum
-from typing import Any, Union
+from typing import Any
 
 from pydantic import BaseModel, Field
 
-from core.tools.entities.tool_entities import ToolInvokeMessage, ToolProviderType
-
 
 class AgentToolEntity(BaseModel):
-    """
-    Agent Tool Entity.
-    """
-
-    provider_type: ToolProviderType
-    provider_id: str
-    tool_name: str
+    provider_type: str = ""
+    provider_id: str = ""
+    tool_name: str = ""
     tool_parameters: dict[str, Any] = Field(default_factory=dict)
-    plugin_unique_identifier: str | None = None
     credential_id: str | None = None
 
 
 class AgentPromptEntity(BaseModel):
-    """
-    Agent Prompt Entity.
-    """
-
-    first_prompt: str
-    next_iteration: str
-
-
-class AgentScratchpadUnit(BaseModel):
-    """
-    Agent First Prompt Entity.
-    """
-
-    class Action(BaseModel):
-        """
-        Action Entity.
-        """
-
-        action_name: str
-        action_input: Union[dict, str]
-
-        def to_dict(self):
-            """
-            Convert to dictionary.
-            """
-            return {
-                "action": self.action_name,
-                "action_input": self.action_input,
-            }
-
-    agent_response: str | None = None
-    thought: str | None = None
-    action_str: str | None = None
-    observation: str | None = None
-    action: Action | None = None
-
-    def is_final(self) -> bool:
-        """
-        Check if the scratchpad unit is final.
-        """
-        return self.action is None or (
-            "final" in self.action.action_name.lower() and "answer" in self.action.action_name.lower()
-        )
+    first_prompt: str = ""
+    next_iteration: str = ""
 
 
 class AgentEntity(BaseModel):
-    """
-    Agent Entity.
-    """
-
     class Strategy(StrEnum):
-        """
-        Agent Strategy.
-        """
-
         CHAIN_OF_THOUGHT = "chain-of-thought"
         FUNCTION_CALLING = "function-calling"
 
-    provider: str
-    model: str
-    strategy: Strategy
+    provider: str = ""
+    model: str = ""
+    strategy: Strategy = Strategy.CHAIN_OF_THOUGHT
     prompt: AgentPromptEntity | None = None
-    tools: list[AgentToolEntity] | None = None
+    tools: list[AgentToolEntity] = Field(default_factory=list)
     max_iteration: int = 10
 
 
-class AgentInvokeMessage(ToolInvokeMessage):
-    """
-    Agent Invoke Message.
-    """
+class AgentScratchpadUnit(BaseModel):
+    agent_response: str | None = None
+    thought: str | None = None
+    action_str: str = ""
+    observation: str | None = None
+    action: dict[str, Any] | None = None
 
-    pass
+
+class AgentInvokeMessage(BaseModel):
+    """Stub for agent invoke message - mirrors ToolInvokeMessage shape."""
+
+    class TextMessage(BaseModel):
+        text: str
+
+    class JsonMessage(BaseModel):
+        json_object: dict | list
+
+    class BlobMessage(BaseModel):
+        blob: bytes
+
+    class BlobChunkMessage(BaseModel):
+        id: str = ""
+        sequence: int = 0
+        total_length: int = 0
+        blob: bytes = b""
+        end: bool = False
+
+    class LogMessage(BaseModel):
+        id: str = ""
+        label: str = ""
+        data: dict = Field(default_factory=dict)
+        error: str | None = None
+        status: str = ""
+        parent_id: str | None = None
+        metadata: dict = Field(default_factory=dict)
+
+    type: str = ""
+    message: TextMessage | JsonMessage | BlobMessage | BlobChunkMessage | LogMessage | None = None
+    meta: dict[str, Any] | None = None

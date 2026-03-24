@@ -1,6 +1,6 @@
-from enum import StrEnum
+"""Stub module - RAG subsystem removed. Only constants retained for model compatibility."""
 
 
-class QueryType(StrEnum):
-    TEXT_QUERY = "text_query"
-    IMAGE_QUERY = "image_query"
+class QueryType:
+    TEXT_QUERY = "text"
+    IMAGE_QUERY = "image"

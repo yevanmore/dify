@@ -16,10 +16,7 @@ service_api_ns = Namespace("service_api", description="Service operations", path
 
 from . import index
 from .app import (
-    annotation,
     app,
-    audio,
-    completion,
     conversation,
     file,
     file_preview,
@@ -27,35 +24,18 @@ from .app import (
     site,
     workflow,
 )
-from .dataset import (
-    dataset,
-    document,
-    hit_testing,
-    metadata,
-    segment,
-)
-from .dataset.rag_pipeline import rag_pipeline_workflow
 from .end_user import end_user
 from .workspace import models
 
 __all__ = [
-    "annotation",
     "app",
-    "audio",
-    "completion",
     "conversation",
-    "dataset",
-    "document",
     "end_user",
     "file",
     "file_preview",
-    "hit_testing",
     "index",
     "message",
-    "metadata",
     "models",
-    "rag_pipeline_workflow",
-    "segment",
     "site",
     "workflow",
 ]

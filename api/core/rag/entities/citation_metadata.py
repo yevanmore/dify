@@ -1,6 +1,8 @@
+"""Stub module - RAG subsystem removed. Only data class retained for compatibility."""
+
 from typing import Any
 
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 
 
 class RetrievalSourceMetadata(BaseModel):
@@ -20,6 +22,5 @@ class RetrievalSourceMetadata(BaseModel):
     content: str | None = None
     page: int | None = None
     doc_metadata: dict[str, Any] | None = None
-    title: str | None = None
-    files: list[dict[str, Any]] | None = None
+    files: list[Any] | None = None
     summary: str | None = None
