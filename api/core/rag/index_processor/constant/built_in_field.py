@@ -1,7 +1,9 @@
-"""Stub module - RAG subsystem removed. Only constants retained for model compatibility."""
+"""Stub for removed RAG built-in fields."""
+
+from enum import StrEnum
 
 
-class BuiltInField:
+class BuiltInField(StrEnum):
     document_name = "document_name"
     uploader = "uploader"
     upload_date = "upload_date"
@@ -9,8 +11,9 @@ class BuiltInField:
     source = "source"
 
 
+# Mapping from data source type to display name
 MetadataDataSource: dict[str, str] = {
-    "upload_file": "upload_file",
-    "notion_import": "notion_import",
-    "website_crawl": "website_crawl",
+    "upload_file": "Upload File",
+    "notion_import": "Notion",
+    "website_crawl": "Website",
 }

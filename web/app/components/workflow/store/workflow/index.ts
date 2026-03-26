@@ -14,7 +14,8 @@ import type { ToolSliceShape } from './tool-slice'
 import type { VersionSliceShape } from './version-slice'
 import type { WorkflowDraftSliceShape } from './workflow-draft-slice'
 import type { WorkflowSliceShape } from './workflow-slice'
-import type { RagPipelineSliceShape } from '@/app/components/rag-pipeline/store'
+// TODO: RagPipelineSliceShape was removed with rag-pipeline components.
+type RagPipelineSliceShape = Record<string, never>
 import type { WorkflowSliceShape as WorkflowAppSliceShape } from '@/app/components/workflow-app/store/workflow/workflow-slice'
 import { useContext } from 'react'
 import {

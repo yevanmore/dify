@@ -1,5 +1,6 @@
 import type { VarType } from '../types'
-import type { ChunkInfo } from '@/app/components/rag-pipeline/components/chunk-card-list/types'
+// TODO: ChunkInfo type was removed with rag-pipeline components. Using inline type.
+type ChunkInfo = Record<string, unknown>
 import type { ParentMode } from '@/models/datasets'
 import { RiBracesLine, RiEyeLine } from '@remixicon/react'
 import * as React from 'react'
@@ -8,7 +9,10 @@ import { useTranslation } from 'react-i18next'
 import { Markdown } from '@/app/components/base/markdown'
 import { SegmentedControl } from '@/app/components/base/segmented-control'
 import Textarea from '@/app/components/base/textarea'
-import { ChunkCardList } from '@/app/components/rag-pipeline/components/chunk-card-list'
+// TODO: ChunkCardList was removed with rag-pipeline components. Stubbing.
+const ChunkCardList = ({ _chunkType, _parentMode, _chunkInfo }: { _chunkType: unknown, _parentMode?: unknown, _chunkInfo: unknown }) => (
+  <div className="p-2 text-text-tertiary text-sm">Chunk preview not available</div>
+)
 import SchemaEditor from '@/app/components/workflow/nodes/llm/components/json-schema-config-modal/schema-editor'
 import { ChunkingMode } from '@/models/datasets'
 import { cn } from '@/utils/classnames'
@@ -87,7 +91,7 @@ const DisplayContent = (props: DisplayContentProps) => {
                   readOnly={readonly}
                   disabled={readonly}
                   className="h-full border-none bg-transparent p-0 text-text-secondary hover:bg-transparent focus:bg-transparent focus:shadow-none"
-                  value={mdString as any}
+                  value={mdString ?? ''}
                   onChange={e => handleTextChange?.(e.target.value)}
                   onFocus={() => setIsFocused(true)}
                   onBlur={() => setIsFocused(false)}

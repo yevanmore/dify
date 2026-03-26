@@ -12,13 +12,10 @@ import Divider from '../base/divider'
 import { getKeyboardKeyCodeBySystem } from '../workflow/utils'
 import AppInfo from './app-info'
 import AppSidebarDropdown from './app-sidebar-dropdown'
-import DatasetInfo from './dataset-info'
-import DatasetSidebarDropdown from './dataset-sidebar-dropdown'
 import NavLink from './nav-link'
 import ToggleButton from './toggle-button'
 
 export type IAppDetailNavProps = {
-  iconType?: 'app' | 'dataset'
   navigation: Array<{
     name: string
     href: string
@@ -32,7 +29,6 @@ export type IAppDetailNavProps = {
 const AppDetailNav = ({
   navigation,
   extraInfo,
-  iconType = 'app',
 }: IAppDetailNavProps) => {
   const { appSidebarExpand, setAppSidebarExpand } = useAppStore(useShallow(state => ({
     appSidebarExpand: state.appSidebarExpand,
@@ -52,7 +48,6 @@ const AppDetailNav = ({
   // Check if the current path is a workflow canvas & fullscreen
   const pathname = usePathname()
   const inWorkflowCanvas = pathname.endsWith('/workflow')
-  const isPipelineCanvas = pathname.endsWith('/pipeline')
   const workflowCanvasMaximize = localStorage.getItem('workflow-canvas-maximize') === 'true'
   const [hideHeader, setHideHeader] = useState(workflowCanvasMaximize)
   const { eventEmitter } = useEventEmitterContextContext()
@@ -82,14 +77,6 @@ const AppDetailNav = ({
     )
   }
 
-  if (isPipelineCanvas && hideHeader) {
-    return (
-      <div className="flex w-0 shrink-0">
-        <DatasetSidebarDropdown navigation={navigation} />
-      </div>
-    )
-  }
-
   return (
     <div
       ref={sidebarRef}
@@ -104,12 +91,7 @@ const AppDetailNav = ({
           expand ? 'p-2' : 'p-1',
         )}
       >
-        {iconType === 'app' && (
-          <AppInfo expand={expand} />
-        )}
-        {iconType !== 'app' && (
-          <DatasetInfo expand={expand} />
-        )}
+        <AppInfo expand={expand} />
       </div>
       <div className="relative px-4 py-2">
         <Divider
@@ -149,7 +131,7 @@ const AppDetailNav = ({
           )
         })}
       </nav>
-      {iconType !== 'app' && extraInfo && extraInfo(appSidebarExpand)}
+      {extraInfo && extraInfo(appSidebarExpand)}
     </div>
   )
 }

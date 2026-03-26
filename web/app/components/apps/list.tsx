@@ -10,7 +10,6 @@ import Input from '@/app/components/base/input'
 import TabSliderNew from '@/app/components/base/tab-slider-new'
 import TagFilter from '@/app/components/base/tag-management/filter'
 import { useStore as useTagStore } from '@/app/components/base/tag-management/store'
-import CheckboxWithLabel from '@/app/components/datasets/create/website/base/checkbox-with-label'
 import { NEED_REFRESH_APP_LIST_KEY } from '@/config'
 import { useAppContext } from '@/context/app-context'
 import { useGlobalPublicStore } from '@/context/global-public-context'
@@ -201,12 +200,15 @@ const List: FC<Props> = ({
             options={options}
           />
           <div className="flex items-center gap-2">
-            <CheckboxWithLabel
-              className="mr-2"
-              label={t('showMyCreatedAppsOnly', { ns: 'app' })}
-              isChecked={isCreatedByMe}
-              onChange={handleCreatedByMeChange}
-            />
+            <label className="mr-2 flex cursor-pointer items-center gap-1.5 text-sm text-text-secondary">
+              <input
+                type="checkbox"
+                checked={isCreatedByMe}
+                onChange={handleCreatedByMeChange}
+                className="h-4 w-4 rounded border-gray-300"
+              />
+              {t('showMyCreatedAppsOnly', { ns: 'app' })}
+            </label>
             <TagFilter type="app" value={tagFilterValue} onChange={handleTagsChange} />
             <Input
               showLeftIcon

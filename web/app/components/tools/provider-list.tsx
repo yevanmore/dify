@@ -11,9 +11,7 @@ import { useTags } from '@/app/components/plugins/hooks'
 import Empty from '@/app/components/plugins/marketplace/empty'
 import PluginDetailPanel from '@/app/components/plugins/plugin-detail-panel'
 import LabelFilter from '@/app/components/tools/labels/filter'
-import CustomCreateCard from '@/app/components/tools/provider/custom-create-card'
 import ProviderDetail from '@/app/components/tools/provider/detail'
-import WorkflowToolEmpty from '@/app/components/tools/provider/empty'
 import { useGlobalPublicStore } from '@/context/global-public-context'
 import { useCheckInstalled, useInvalidateInstalledPluginList } from '@/service/use-plugins'
 import { useAllToolProviders } from '@/service/use-tools'
@@ -21,9 +19,8 @@ import { cn } from '@/utils/classnames'
 import Marketplace from './marketplace'
 import { useMarketplace } from './marketplace/hooks'
 import MCPList from './mcp'
-import { getToolType } from './utils'
 
-const TOOL_PROVIDER_CATEGORY_VALUES = ['builtin', 'api', 'workflow', 'mcp'] as const
+const TOOL_PROVIDER_CATEGORY_VALUES = ['builtin', 'mcp'] as const
 type ToolProviderCategory = typeof TOOL_PROVIDER_CATEGORY_VALUES[number]
 const toolProviderCategorySet = new Set<string>(TOOL_PROVIDER_CATEGORY_VALUES)
 
@@ -45,8 +42,6 @@ const ProviderList = () => {
   const [activeTab, setActiveTab] = useQueryState('category', parseAsToolProviderCategory)
   const options = [
     { value: 'builtin', text: t('type.builtIn', { ns: 'tools' }) },
-    { value: 'api', text: t('type.custom', { ns: 'tools' }) },
-    { value: 'workflow', text: t('type.workflow', { ns: 'tools' }) },
     { value: 'mcp', text: 'MCP' },
   ]
   const [tagFilterValue, setTagFilterValue] = useState<string[]>([])
@@ -158,10 +153,8 @@ const ProviderList = () => {
           {activeTab !== 'mcp' && (
             <div className={cn(
               'relative grid shrink-0 grid-cols-1 content-start gap-4 px-12 pb-4 pt-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4',
-              !filteredCollectionList.length && activeTab === 'workflow' && 'grow',
             )}
             >
-              {activeTab === 'api' && <CustomCreateCard onRefreshData={refetch} />}
               {filteredCollectionList.map(collection => (
                 <div
                   key={collection.id}
@@ -187,7 +180,6 @@ const ProviderList = () => {
                   />
                 </div>
               ))}
-              {!filteredCollectionList.length && activeTab === 'workflow' && <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2"><WorkflowToolEmpty type={getToolType(activeTab)} /></div>}
             </div>
           )}
           {!filteredCollectionList.length && activeTab === 'builtin' && (

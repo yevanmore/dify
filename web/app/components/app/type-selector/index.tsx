@@ -17,7 +17,7 @@ export type AppSelectorProps = {
   onChange: (value: AppSelectorProps['value']) => void
 }
 
-const allTypes: AppModeEnum[] = [AppModeEnum.WORKFLOW, AppModeEnum.ADVANCED_CHAT, AppModeEnum.CHAT, AppModeEnum.AGENT_CHAT, AppModeEnum.COMPLETION]
+const allTypes: AppModeEnum[] = [AppModeEnum.WORKFLOW, AppModeEnum.ADVANCED_CHAT]
 
 const AppTypeSelector = ({ value, onChange }: AppSelectorProps) => {
   const [open, setOpen] = useState(false)

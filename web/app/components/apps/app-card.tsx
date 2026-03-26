@@ -3,9 +3,8 @@
 import type { DuplicateAppModalProps } from '@/app/components/app/duplicate-modal'
 import type { HtmlContentProps } from '@/app/components/base/popover'
 import type { Tag } from '@/app/components/base/tag-management/constant'
-import type { CreateAppModalProps } from '@/app/components/explore/create-app-modal'
 import type { EnvironmentVariable } from '@/app/components/workflow/types'
-import type { App } from '@/types/app'
+import type { App, AppIconType } from '@/types/app'
 import { RiBuildingLine, RiGlobalLine, RiLockLine, RiMoreFill, RiVerifiedBadgeLine } from '@remixicon/react'
 import dynamic from 'next/dynamic'
 import { useRouter } from 'next/navigation'
@@ -37,9 +36,6 @@ import { downloadBlob } from '@/utils/download'
 import { formatTime } from '@/utils/time'
 import { basePath } from '@/utils/var'
 
-const EditAppModal = dynamic(() => import('@/app/components/explore/create-app-modal'), {
-  ssr: false,
-})
 const DuplicateAppModal = dynamic(() => import('@/app/components/app/duplicate-modal'), {
   ssr: false,
 })
@@ -70,7 +66,6 @@ const AppCard = ({ app, onRefresh }: AppCardProps) => {
   const { push } = useRouter()
   const openAsyncWindow = useAsyncWindowOpen()
 
-  const [showEditModal, setShowEditModal] = useState(false)
   const [showDuplicateModal, setShowDuplicateModal] = useState(false)
   const [showSwitchModal, setShowSwitchModal] = useState<boolean>(false)
   const [showConfirmDelete, setShowConfirmDelete] = useState(false)
@@ -94,7 +89,7 @@ const AppCard = ({ app, onRefresh }: AppCardProps) => {
     setShowConfirmDelete(false)
   }, [app.id, notify, onPlanInfoChanged, onRefresh, t])
 
-  const onEdit: CreateAppModalProps['onConfirm'] = useCallback(async ({
+  const _onEdit = useCallback(async ({
     name,
     icon_type,
     icon,
@@ -102,6 +97,14 @@ const AppCard = ({ app, onRefresh }: AppCardProps) => {
     description,
     use_icon_as_answer_icon,
     max_active_requests,
+  }: {
+    name: string
+    icon_type: AppIconType
+    icon: string
+    icon_background: string
+    description: string
+    use_icon_as_answer_icon?: boolean
+    max_active_requests?: number | null
   }) => {
     try {
       await updateAppInfo({
@@ -114,7 +117,6 @@ const AppCard = ({ app, onRefresh }: AppCardProps) => {
         use_icon_as_answer_icon,
         max_active_requests,
       })
-      setShowEditModal(false)
       notify({
         type: 'success',
         message: t('editDone', { ns: 'app' }),
@@ -206,12 +208,6 @@ const AppCard = ({ app, onRefresh }: AppCardProps) => {
     const onMouseLeave = async () => {
       props.onClose?.()
     }
-    const onClickSettings = async (e: React.MouseEvent<HTMLButtonElement>) => {
-      e.stopPropagation()
-      props.onClick?.()
-      e.preventDefault()
-      setShowEditModal(true)
-    }
     const onClickDuplicate = async (e: React.MouseEvent<HTMLButtonElement>) => {
       e.stopPropagation()
       props.onClick?.()
@@ -265,10 +261,6 @@ const AppCard = ({ app, onRefresh }: AppCardProps) => {
     }
     return (
       <div className="relative flex w-full flex-col py-1" onMouseLeave={onMouseLeave}>
-        <button type="button" className="mx-1 flex h-8 cursor-pointer items-center gap-2 rounded-lg px-3 hover:bg-state-base-hover" onClick={onClickSettings}>
-          <span className="text-text-secondary system-sm-regular">{t('editApp', { ns: 'app' })}</span>
-        </button>
-        <Divider className="my-1" />
         <button type="button" className="mx-1 flex h-8 cursor-pointer items-center gap-2 rounded-lg px-3 hover:bg-state-base-hover" onClick={onClickDuplicate}>
           <span className="text-text-secondary system-sm-regular">{t('duplicate', { ns: 'app' })}</span>
         </button>
@@ -458,23 +450,6 @@ const AppCard = ({ app, onRefresh }: AppCardProps) => {
           )}
         </div>
       </div>
-      {showEditModal && (
-        <EditAppModal
-          isEditModal
-          appName={app.name}
-          appIconType={app.icon_type}
-          appIcon={app.icon}
-          appIconBackground={app.icon_background}
-          appIconUrl={app.icon_url}
-          appDescription={app.description}
-          appMode={app.mode}
-          appUseIconAsAnswerIcon={app.use_icon_as_answer_icon}
-          max_active_requests={app.max_active_requests ?? null}
-          show={showEditModal}
-          onConfirm={onEdit}
-          onHide={() => setShowEditModal(false)}
-        />
-      )}
       {showDuplicateModal && (
         <DuplicateAppModal
           appName={app.name}

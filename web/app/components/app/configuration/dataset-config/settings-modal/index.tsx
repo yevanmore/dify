@@ -2,7 +2,6 @@ import type { FC } from 'react'
 import type { Member } from '@/models/common'
 import type { DataSet } from '@/models/datasets'
 import type { RetrievalConfig } from '@/types/app'
-import { RiCloseLine } from '@remixicon/react'
 import { isEqual } from 'es-toolkit/predicate'
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
@@ -10,12 +9,25 @@ import Button from '@/app/components/base/button'
 import Input from '@/app/components/base/input'
 import Textarea from '@/app/components/base/textarea'
 import { useToastContext } from '@/app/components/base/toast'
-import { isReRankModelSelected } from '@/app/components/datasets/common/check-rerank-model'
-import { IndexingType } from '@/app/components/datasets/create/step-two'
-import IndexMethod from '@/app/components/datasets/settings/index-method'
-import PermissionSelector from '@/app/components/datasets/settings/permission-selector'
-import { checkShowMultiModalTip } from '@/app/components/datasets/settings/utils'
 import { ACCOUNT_SETTING_TAB } from '@/app/components/header/account-setting/constants'
+
+// Stubs for removed datasets components
+enum IndexingType {
+  QUALIFIED = 'high_quality',
+  ECONOMICAL = 'economy',
+}
+function isReRankModelSelected(_params: { rerankModelList: unknown, retrievalConfig: unknown, indexMethod: unknown }) {
+  return true
+}
+function checkShowMultiModalTip(_params: Record<string, unknown>) {
+  return false
+}
+function IndexMethod(_props: Record<string, unknown>) {
+  return null
+}
+function PermissionSelector(_props: Record<string, unknown>) {
+  return null
+}
 import { ModelTypeEnum } from '@/app/components/header/account-setting/model-provider-page/declarations'
 import { useModelList } from '@/app/components/header/account-setting/model-provider-page/hooks'
 import ModelSelector from '@/app/components/header/account-setting/model-provider-page/model-selector'
@@ -136,7 +148,7 @@ const SettingsModal: FC<SettingsModalProps> = ({
             },
           }),
         },
-      } as any
+      } as unknown
       if (permission === DatasetPermission.partialMembers) {
         requestParams.body.partial_member_list = selectedMemberIDs.map((id) => {
           return {
@@ -202,7 +214,7 @@ const SettingsModal: FC<SettingsModalProps> = ({
             onClick={onCancel}
             className="flex h-6 w-6 cursor-pointer items-center justify-center"
           >
-            <RiCloseLine className="h-4 w-4 text-text-tertiary" />
+            <span className="i-ri-close-line h-4 w-4 text-text-tertiary" />
           </div>
         </div>
       </div>
@@ -295,7 +307,7 @@ const SettingsModal: FC<SettingsModalProps> = ({
                 isExternal
                 rowClass={rowClass}
                 labelClass={labelClass}
-                t={t as any}
+                t={t as unknown}
                 topK={topK}
                 scoreThreshold={scoreThreshold}
                 scoreThresholdEnabled={scoreThresholdEnabled}
@@ -308,7 +320,7 @@ const SettingsModal: FC<SettingsModalProps> = ({
                 isExternal={false}
                 rowClass={rowClass}
                 labelClass={labelClass}
-                t={t as any}
+                t={t as unknown}
                 indexMethod={indexMethod}
                 retrievalConfig={retrievalConfig}
                 showMultiModalTip={showMultiModalTip}

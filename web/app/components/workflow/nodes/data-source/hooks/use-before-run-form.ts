@@ -2,8 +2,28 @@ import type { CustomRunFormProps, DataSourceNodeType } from '../types'
 import type { NodeRunResult } from '@/types/workflow'
 import { useEffect, useMemo, useRef } from 'react'
 import { useStoreApi } from 'reactflow'
-import { useShallow } from 'zustand/react/shallow'
-import { useDataSourceStore, useDataSourceStoreWithSelector } from '@/app/components/datasets/documents/create-from-pipeline/data-source/store'
+// useShallow import removed - was used with the now-stubbed useDataSourceStoreWithSelector
+// TODO: useDataSourceStore was removed with datasets components. Stubbing for compilation.
+// eslint-disable-next-line react/no-unnecessary-use-prefix
+const useDataSourceStore = () => ({
+  getState: () => ({
+    localFileList: [] as unknown[],
+    onlineDocuments: [] as unknown[],
+    websitePages: [] as unknown[],
+    selectedFileIds: [] as string[],
+    currentCredentialId: '',
+    setCurrentCredentialId: (_id: string) => {},
+    bucket: '',
+    onlineDriveFileList: [] as unknown[],
+  }),
+})
+// eslint-disable-next-line react/no-unnecessary-use-prefix
+const useDataSourceStoreWithSelector = (selector: unknown) => (selector as (state: Record<string, unknown>) => Record<string, unknown>)({
+  localFileList: [] as unknown[],
+  onlineDocuments: [] as unknown[],
+  websitePages: [] as unknown[],
+  selectedFileIds: [] as string[],
+})
 import { DatasourceType } from '@/models/pipeline'
 import { useDatasourceSingleRun } from '@/service/use-pipeline'
 import { useInvalidLastRun } from '@/service/use-workflow'
@@ -38,12 +58,12 @@ const useBeforeRunForm = ({
     onlineDocuments,
     websitePages,
     selectedFileIds,
-  } = useDataSourceStoreWithSelector(useShallow(state => ({
+  } = useDataSourceStoreWithSelector((state: Record<string, unknown>) => ({
     localFileList: state.localFileList,
     onlineDocuments: state.onlineDocuments,
     websitePages: state.websitePages,
     selectedFileIds: state.selectedFileIds,
-  })))
+  }))
 
   const startRunBtnDisabled = useMemo(() => {
     if (!datasourceNodeData)
@@ -102,7 +122,7 @@ const useBeforeRunForm = ({
   const { mutateAsync: handleDatasourceSingleRun, isPending } = useDatasourceSingleRun()
 
   const handleRun = () => {
-    let datasourceInfo: Record<string, any> = {}
+    let datasourceInfo: Record<string, unknown> = {}
     const { currentCredentialId: credentialId } = dataSourceStore.getState()
     if (datasourceType === DatasourceType.localFile) {
       const { localFileList } = dataSourceStore.getState()

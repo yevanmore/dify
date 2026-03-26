@@ -1,12 +1,13 @@
-"""Stub module - RAG subsystem removed. Only data class retained for compatibility."""
+"""Stub for removed RAG citation metadata. Provides RetrievalSourceMetadata as a
+lightweight Pydantic model so existing imports and type annotations don't break."""
 
-from typing import Any
 
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 
 
 class RetrievalSourceMetadata(BaseModel):
-    position: int | None = None
+    """Minimal stub replacing the original RAG RetrievalSourceMetadata."""
+
     dataset_id: str | None = None
     dataset_name: str | None = None
     document_id: str | None = None
@@ -21,6 +22,7 @@ class RetrievalSourceMetadata(BaseModel):
     index_node_hash: str | None = None
     content: str | None = None
     page: int | None = None
-    doc_metadata: dict[str, Any] | None = None
-    files: list[Any] | None = None
-    summary: str | None = None
+    position: int | None = Field(default=None)
+
+    class Config:
+        extra = "allow"

@@ -2,55 +2,26 @@
 import type { FC } from 'react'
 import type { CustomRunFormProps } from './types'
 import * as React from 'react'
-import { useCallback } from 'react'
 import { useTranslation } from 'react-i18next'
 import Button from '@/app/components/base/button'
-import LocalFile from '@/app/components/datasets/documents/create-from-pipeline/data-source/local-file'
-import OnlineDocuments from '@/app/components/datasets/documents/create-from-pipeline/data-source/online-documents'
-import OnlineDrive from '@/app/components/datasets/documents/create-from-pipeline/data-source/online-drive'
-import { useDataSourceStore } from '@/app/components/datasets/documents/create-from-pipeline/data-source/store'
-import DataSourceProvider from '@/app/components/datasets/documents/create-from-pipeline/data-source/store/provider'
-import WebsiteCrawl from '@/app/components/datasets/documents/create-from-pipeline/data-source/website-crawl'
-import { useOnlineDocument, useOnlineDrive, useWebsiteCrawl } from '@/app/components/rag-pipeline/components/panel/test-run/preparation/hooks'
-import { DatasourceType } from '@/models/pipeline'
+// TODO: Data source UI components (LocalFile, OnlineDocuments, WebsiteCrawl, OnlineDrive,
+// DataSourceProvider, useDataSourceStore) were removed with the datasets/rag-pipeline deletion.
+// This form is stubbed to keep the workflow node compilable.
 import PanelWrap from '../_base/components/before-run-form/panel-wrap'
 import useBeforeRunForm from './hooks/use-before-run-form'
 
 const BeforeRunForm: FC<CustomRunFormProps> = (props) => {
   const {
-    nodeId,
     payload,
     onCancel,
   } = props
   const { t } = useTranslation()
-  const dataSourceStore = useDataSourceStore()
 
   const {
     isPending,
     handleRunWithSyncDraft,
-    datasourceType,
-    datasourceNodeData,
     startRunBtnDisabled,
   } = useBeforeRunForm(props)
-
-  const { clearOnlineDocumentData } = useOnlineDocument()
-  const { clearWebsiteCrawlData } = useWebsiteCrawl()
-  const { clearOnlineDriveData } = useOnlineDrive()
-
-  const clearDataSourceData = useCallback(() => {
-    if (datasourceType === DatasourceType.onlineDocument)
-      clearOnlineDocumentData()
-    else if (datasourceType === DatasourceType.websiteCrawl)
-      clearWebsiteCrawlData()
-    else if (datasourceType === DatasourceType.onlineDrive)
-      clearOnlineDriveData()
-  }, [clearOnlineDocumentData, clearOnlineDriveData, clearWebsiteCrawlData, datasourceType])
-
-  const handleCredentialChange = useCallback((credentialId: string) => {
-    const { setCurrentCredentialId } = dataSourceStore.getState()
-    clearDataSourceData()
-    setCurrentCredentialId(credentialId)
-  }, [clearDataSourceData, dataSourceStore])
 
   return (
     <PanelWrap
@@ -58,39 +29,10 @@ const BeforeRunForm: FC<CustomRunFormProps> = (props) => {
       onHide={onCancel}
     >
       <div className="flex flex-col gap-y-5 px-4 pt-4">
-        {datasourceType === DatasourceType.localFile && (
-          <LocalFile
-            allowedExtensions={datasourceNodeData.fileExtensions || []}
-            supportBatchUpload={false}
-          />
-        )}
-        {datasourceType === DatasourceType.onlineDocument && (
-          <OnlineDocuments
-            nodeId={nodeId}
-            nodeData={datasourceNodeData}
-            isInPipeline
-            onCredentialChange={handleCredentialChange}
-            supportBatchUpload={false}
-          />
-        )}
-        {datasourceType === DatasourceType.websiteCrawl && (
-          <WebsiteCrawl
-            nodeId={nodeId}
-            nodeData={datasourceNodeData}
-            isInPipeline
-            onCredentialChange={handleCredentialChange}
-            supportBatchUpload={false}
-          />
-        )}
-        {datasourceType === DatasourceType.onlineDrive && (
-          <OnlineDrive
-            nodeId={nodeId}
-            nodeData={datasourceNodeData}
-            isInPipeline
-            onCredentialChange={handleCredentialChange}
-            supportBatchUpload={false}
-          />
-        )}
+        <div className="text-text-tertiary text-sm">
+          {/* TODO: Restore data source selection UI */}
+          Data source configuration UI is not yet available.
+        </div>
         <div className="flex justify-end gap-x-2">
           <Button onClick={onCancel}>
             {t('operation.cancel', { ns: 'common' })}
@@ -109,12 +51,4 @@ const BeforeRunForm: FC<CustomRunFormProps> = (props) => {
   )
 }
 
-const BeforeRunFormWrapper = (props: CustomRunFormProps) => {
-  return (
-    <DataSourceProvider>
-      <BeforeRunForm {...props} />
-    </DataSourceProvider>
-  )
-}
-
-export default React.memo(BeforeRunFormWrapper)
+export default React.memo(BeforeRunForm)

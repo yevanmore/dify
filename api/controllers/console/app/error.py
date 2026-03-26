@@ -121,3 +121,11 @@ class NeedAddIdsError(BaseHTTPException):
     error_code = "need_add_ids"
     description = "Need to add ids."
     code = 400
+
+
+class AppSuggestedQuestionsAfterAnswerDisabledError(BaseHTTPException):
+    """Stub: was in explore module which has been removed."""
+
+    error_code = "app_suggested_questions_after_answer_disabled"
+    description = "Suggested questions after answer is disabled."
+    code = 403

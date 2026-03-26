@@ -1,4 +1,4 @@
-"""Stub module - RAG subsystem removed. Only data classes retained for compatibility."""
+"""Stub for removed RAG document models."""
 
 from typing import Any
 
@@ -6,17 +6,14 @@ from pydantic import BaseModel, Field
 
 
 class Document(BaseModel):
+    """Minimal stub replacing the original RAG Document."""
+
     page_content: str = ""
     metadata: dict[str, Any] = Field(default_factory=dict)
-    provider: str = "dify"
-    knowledge_id: str | None = None
 
 
 class ChildDocument(BaseModel):
-    page_content: str = ""
-    metadata: dict[str, Any] = Field(default_factory=dict)
+    """Minimal stub replacing the original RAG ChildDocument."""
 
-
-class AttachmentDocument(BaseModel):
     page_content: str = ""
     metadata: dict[str, Any] = Field(default_factory=dict)

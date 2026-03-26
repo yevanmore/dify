@@ -3,8 +3,10 @@
 import type { Dispatch, SetStateAction } from 'react'
 import type { TriggerEventsLimitModalPayload } from './hooks/use-trigger-events-limit-modal'
 import type { OpeningStatement } from '@/app/components/base/features/types'
-import type { CreateExternalAPIReq } from '@/app/components/datasets/external-api/declarations'
 import type { AccountSettingTab } from '@/app/components/header/account-setting/constants'
+
+// Stub type for removed external knowledge API feature
+type CreateExternalAPIReq = Record<string, unknown>
 import type {
   ConfigurationMethodEnum,
   Credential,
@@ -64,9 +66,6 @@ const AnnotationFullModal = dynamic(() => import('@/app/components/billing/annot
   ssr: false,
 })
 const ModelModal = dynamic(() => import('@/app/components/header/account-setting/model-provider-page/model-modal'), {
-  ssr: false,
-})
-const ExternalAPIModal = dynamic(() => import('@/app/components/datasets/external-api/external-api-modal'), {
   ssr: false,
 })
 const ModelLoadBalancingModal = dynamic(() => import('@/app/components/header/account-setting/model-provider-page/provider-added-card/model-load-balancing-modal'), {
@@ -258,19 +257,19 @@ export const ModalContextProvider = ({
     setShowModelModal(null)
   }, [showModelModal])
 
-  const handleCancelExternalApiModal = useCallback(() => {
+  const _handleCancelExternalApiModal = useCallback(() => {
     setShowExternalKnowledgeAPIModal(null)
     if (showExternalKnowledgeAPIModal?.onCancelCallback)
       showExternalKnowledgeAPIModal.onCancelCallback()
   }, [showExternalKnowledgeAPIModal])
 
-  const handleSaveExternalApiModal = useCallback(async (updatedFormValue: CreateExternalAPIReq) => {
+  const _handleSaveExternalApiModal = useCallback(async (updatedFormValue: CreateExternalAPIReq) => {
     if (showExternalKnowledgeAPIModal?.onSaveCallback)
       showExternalKnowledgeAPIModal.onSaveCallback(updatedFormValue)
     setShowExternalKnowledgeAPIModal(null)
   }, [showExternalKnowledgeAPIModal])
 
-  const handleEditExternalApiModal = useCallback(async (updatedFormValue: CreateExternalAPIReq) => {
+  const _handleEditExternalApiModal = useCallback(async (updatedFormValue: CreateExternalAPIReq) => {
     if (showExternalKnowledgeAPIModal?.onEditCallback)
       showExternalKnowledgeAPIModal.onEditCallback(updatedFormValue)
     setShowExternalKnowledgeAPIModal(null)
@@ -408,18 +407,7 @@ export const ModalContextProvider = ({
             />
           )
         }
-        {
-          !!showExternalKnowledgeAPIModal && (
-            <ExternalAPIModal
-              data={showExternalKnowledgeAPIModal.payload}
-              datasetBindings={showExternalKnowledgeAPIModal.datasetBindings ?? []}
-              onSave={handleSaveExternalApiModal}
-              onCancel={handleCancelExternalApiModal}
-              onEdit={handleEditExternalApiModal}
-              isEditMode={showExternalKnowledgeAPIModal.isEditMode ?? false}
-            />
-          )
-        }
+        {/* External Knowledge API modal removed - datasets feature deleted */}
         {
           Boolean(showModelLoadBalancingModal) && (
             <ModelLoadBalancingModal {...showModelLoadBalancingModal!} />

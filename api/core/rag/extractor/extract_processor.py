@@ -1,17 +1,15 @@
-"""Stub module - RAG subsystem removed."""
+"""Stub for removed RAG extract processor."""
 
-from typing import Any
+SUPPORT_URL_CONTENT_TYPES = [
+    "application/pdf",
+    "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+    "text/plain",
+]
 
 
 class ExtractProcessor:
-    @classmethod
-    def extract(cls, *args: Any, **kwargs: Any) -> list:
-        raise NotImplementedError("RAG subsystem has been removed")
+    """Stub class for removed ExtractProcessor."""
 
-    @classmethod
-    def load_from_url(cls, url: str, return_text: bool = False) -> list | str:
-        raise NotImplementedError("RAG subsystem has been removed")
-
-    @classmethod
-    def load_from_upload_file(cls, *args: Any, **kwargs: Any) -> list:
-        raise NotImplementedError("RAG subsystem has been removed")
+    @staticmethod
+    def load_from_url(url: str, return_text: bool = False) -> str:
+        raise RuntimeError("RAG ExtractProcessor has been removed")

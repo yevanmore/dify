@@ -1,9 +1,9 @@
-"""Stub module - RAG subsystem removed. Only constants retained for model compatibility."""
+"""Stub for removed RAG index types."""
 
 from enum import StrEnum
 
 
 class IndexStructureType(StrEnum):
-    PARAGRAPH_INDEX = "text_model"
-    QA_INDEX = "qa_model"
-    PARENT_CHILD_INDEX = "hierarchical_model"
+    QA = "qa"
+    TEXT = "text_model"
+    PARAGRAPH = "paragraph"

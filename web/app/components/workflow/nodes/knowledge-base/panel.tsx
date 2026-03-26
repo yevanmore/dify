@@ -7,8 +7,10 @@ import {
   useMemo,
 } from 'react'
 import { useTranslation } from 'react-i18next'
-import SummaryIndexSetting from '@/app/components/datasets/settings/summary-index-setting'
-import { checkShowMultiModalTip } from '@/app/components/datasets/settings/utils'
+// TODO: SummaryIndexSetting and checkShowMultiModalTip were removed with datasets components.
+// Stubbing until knowledge-base node is fully refactored.
+const SummaryIndexSetting = ({ _summaryIndexSetting, _onSummaryIndexSettingChange, _readonly }: { _summaryIndexSetting?: unknown, _onSummaryIndexSettingChange?: unknown, _readonly?: unknown }) => null
+const checkShowMultiModalTip = (_opts: unknown): boolean => false
 import { ModelTypeEnum } from '@/app/components/header/account-setting/model-provider-page/declarations'
 import { useModelList } from '@/app/components/header/account-setting/model-provider-page/hooks'
 import { useNodesReadOnly } from '@/app/components/workflow/hooks'

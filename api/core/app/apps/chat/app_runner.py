@@ -10,11 +10,13 @@ from core.app.entities.app_invoke_entities import (
     ChatAppGenerateEntity,
 )
 from core.app.entities.queue_entities import QueueAnnotationReplyEvent
-from core.callback_handler.index_tool_callback_handler import DatasetIndexToolCallbackHandler
+
+# RAG removed: DatasetIndexToolCallbackHandler deleted
 from core.memory.token_buffer_memory import TokenBufferMemory
 from core.model_manager import ModelInstance
 from core.moderation.base import ModerationError
-from core.rag.retrieval.dataset_retrieval import DatasetRetrieval
+
+# from core.rag.retrieval.dataset_retrieval import DatasetRetrieval  # Removed: RAG module deleted
 from dify_graph.file import File
 from dify_graph.model_runtime.entities.message_entities import ImagePromptMessageContent
 from extensions.ext_database import db
@@ -145,39 +147,9 @@ class ChatAppRunner(AppRunner):
                 query=query,
             )
 
-        # get context from datasets
+        # get context from datasets - RAG module removed, dataset retrieval disabled
         context = None
         context_files: list[File] = []
-        if app_config.dataset and app_config.dataset.dataset_ids:
-            hit_callback = DatasetIndexToolCallbackHandler(
-                queue_manager,
-                app_record.id,
-                message.id,
-                application_generate_entity.user_id,
-                application_generate_entity.invoke_from,
-            )
-
-            dataset_retrieval = DatasetRetrieval(application_generate_entity)
-            context, retrieved_files = dataset_retrieval.retrieve(
-                app_id=app_record.id,
-                user_id=application_generate_entity.user_id,
-                tenant_id=app_record.tenant_id,
-                model_config=application_generate_entity.model_conf,
-                config=app_config.dataset,
-                query=query,
-                invoke_from=application_generate_entity.invoke_from,
-                show_retrieve_source=(
-                    app_config.additional_features.show_retrieve_source if app_config.additional_features else False
-                ),
-                hit_callback=hit_callback,
-                memory=memory,
-                message_id=message.id,
-                inputs=inputs,
-                vision_enabled=application_generate_entity.app_config.app_model_config_dict.get("file_upload", {}).get(
-                    "enabled", False
-                ),
-            )
-            context_files = retrieved_files or []
 
         # reorganize all inputs and template to prompt messages
         # Include: prompt template, inputs, query(optional), files(optional)

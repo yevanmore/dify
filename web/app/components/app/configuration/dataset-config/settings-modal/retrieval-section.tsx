@@ -6,16 +6,26 @@ import { RiCloseLine } from '@remixicon/react'
 import Divider from '@/app/components/base/divider'
 import { AlertTriangle } from '@/app/components/base/icons/src/vender/solid/alertsAndFeedback'
 import { ApiConnectionMod } from '@/app/components/base/icons/src/vender/solid/development'
-import EconomicalRetrievalMethodConfig from '@/app/components/datasets/common/economical-retrieval-method-config'
-import RetrievalMethodConfig from '@/app/components/datasets/common/retrieval-method-config'
-import { IndexingType } from '@/app/components/datasets/create/step-two'
-import RetrievalSettings from '@/app/components/datasets/external-knowledge-base/create/RetrievalSettings'
+// Stubs for removed datasets components
+enum IndexingType {
+  QUALIFIED = 'high_quality',
+  ECONOMICAL = 'economy',
+}
+function RetrievalMethodConfig(_props: Record<string, unknown>) {
+  return null
+}
+function EconomicalRetrievalMethodConfig(_props: Record<string, unknown>) {
+  return null
+}
+function RetrievalSettings(_props: Record<string, unknown>) {
+  return null
+}
 import { cn } from '@/utils/classnames'
 
 type CommonSectionProps = {
   rowClass: string
   labelClass: string
-  t: (key: string, options?: any) => string
+  t: (key: string, options?: unknown) => string
 }
 
 type ExternalRetrievalSectionProps = CommonSectionProps & {

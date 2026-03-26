@@ -1,10 +1,20 @@
-import type { IndexingType } from '@/app/components/datasets/create/step-two'
 import type { Model } from '@/app/components/header/account-setting/model-provider-page/declarations'
 import type { CommonNodeType } from '@/app/components/workflow/types'
 import type { RerankingModeEnum, WeightedScoreEnum } from '@/models/datasets'
 import type { RETRIEVE_METHOD } from '@/types/app'
 
-export { IndexingType as IndexMethodEnum } from '@/app/components/datasets/create/step-two'
+/**
+ * Stub for the deleted IndexingType from datasets/create/step-two.
+ * TODO: Remove once knowledge-base node is fully refactored.
+ */
+export enum IndexMethodEnum {
+  QUALIFIED = 'high_quality',
+  ECONOMICAL = 'economy',
+}
+
+/** Keep the original name available for files that import IndexingType. */
+export type IndexingType = IndexMethodEnum
+
 export { WeightedScoreEnum } from '@/models/datasets'
 export { RerankingModeEnum as HybridSearchModeEnum } from '@/models/datasets'
 export { RETRIEVE_METHOD as RetrievalSearchMethodEnum } from '@/types/app'
@@ -51,7 +61,7 @@ export type SummaryIndexSetting = {
 export type KnowledgeBaseNodeType = CommonNodeType & {
   index_chunk_variable_selector: string[]
   chunk_structure?: ChunkStructureEnum
-  indexing_technique?: IndexingType
+  indexing_technique?: IndexMethodEnum
   embedding_model?: string
   embedding_model_provider?: string
   keyword_number: number

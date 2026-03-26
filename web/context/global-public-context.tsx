@@ -32,6 +32,8 @@ export function useSystemFeaturesQuery() {
   return useQuery({
     queryKey: systemFeaturesQueryKey,
     queryFn: fetchSystemFeatures,
+    retry: 1,
+    retryDelay: 500,
   })
 }
 
@@ -53,11 +55,12 @@ const GlobalPublicStoreProvider: FC<PropsWithChildren> = ({
 }) => {
   // Fetch systemFeatures and setupStatus in parallel to reduce waterfall.
   // setupStatus is prefetched here and cached in localStorage for AppInitializer.
-  const { isPending } = useSystemFeaturesQuery()
+  const { isPending, isError: _isError } = useSystemFeaturesQuery()
 
   // Prefetch setupStatus for AppInitializer (result not needed here)
   useSetupStatusQuery()
 
+  // Show loading only while genuinely pending (not if backend is unreachable)
   if (isPending)
     return <div className="flex h-screen w-screen items-center justify-center"><Loading /></div>
   return <>{children}</>

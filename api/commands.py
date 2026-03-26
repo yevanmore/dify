@@ -19,10 +19,37 @@ from constants.languages import languages
 from core.helper import encrypter
 from core.plugin.entities.plugin_daemon import CredentialType
 from core.plugin.impl.plugin import PluginInstaller
-from core.rag.datasource.vdb.vector_factory import Vector
-from core.rag.datasource.vdb.vector_type import VectorType
-from core.rag.index_processor.constant.built_in_field import BuiltInField
+
+# RAG vector/index imports removed (modules deleted) - these commands will fail at runtime if invoked
+# from core.rag.datasource.vdb.vector_factory import Vector
+# from core.rag.datasource.vdb.vector_type import VectorType
+# from core.rag.index_processor.constant.built_in_field import BuiltInField
 from core.rag.models.document import ChildDocument, Document
+
+
+class _RagStub:
+    """Stub placeholder for removed RAG types. Commands using these will fail at runtime."""
+    def __init__(self, *args, **kwargs):
+        raise RuntimeError("RAG module has been removed")
+
+    def __getattr__(self, name):
+        raise RuntimeError("RAG module has been removed")
+
+
+Vector = _RagStub
+VectorType = type("VectorType", (), {
+    "__getattr__": lambda self, name: name,
+    "MILVUS": "milvus", "PGVECTOR": "pgvector", "VASTBASE": "vastbase",
+    "RELYT": "relyt", "WEAVIATE": "weaviate", "ORACLE": "oracle",
+    "ELASTICSEARCH": "elasticsearch", "OPENGAUSS": "opengauss",
+    "TABLESTORE": "tablestore", "MATRIXONE": "matrixone",
+    "ANALYTICDB": "analyticdb", "CHROMA": "chroma", "MYSCALE": "myscale",
+    "PGVECTO_RS": "pgvecto_rs", "TIDB_VECTOR": "tidb_vector",
+    "OPENSEARCH": "opensearch", "TENCENT": "tencent", "BAIDU": "baidu",
+    "VIKINGDB": "vikingdb", "UPSTASH": "upstash", "COUCHBASE": "couchbase",
+    "OCEANBASE": "oceanbase", "QDRANT": "qdrant",
+})()
+BuiltInField = type("BuiltInField", (), {"__iter__": lambda self: iter([])})()
 from core.tools.utils.system_oauth_encryption import encrypt_system_oauth_params
 from events.app_event import app_was_created
 from extensions.ext_database import db
@@ -550,7 +577,10 @@ def add_qdrant_index(field: str):
             click.echo(click.style("No dataset collection bindings found.", fg="red"))
             return
         import qdrant_client
-        from core.rag.datasource.vdb.qdrant.qdrant_vector import PathQdrantParams, QdrantConfig
+        from core.rag.datasource.vdb.qdrant.qdrant_vector import (  # type: ignore[import-not-found]
+            PathQdrantParams,
+            QdrantConfig,
+        )
         from qdrant_client.http.exceptions import UnexpectedResponse
         from qdrant_client.http.models import PayloadSchemaType
 

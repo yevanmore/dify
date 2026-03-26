@@ -21,18 +21,18 @@ describe('AppTypeSelector', () => {
   // Covers prop-driven trigger variants (empty, single, multiple).
   describe('Props', () => {
     it('should render selected type label and clear button when a single type is selected', () => {
-      render(<AppTypeSelector value={[AppModeEnum.CHAT]} onChange={vi.fn()} />)
+      render(<AppTypeSelector value={[AppModeEnum.WORKFLOW]} onChange={vi.fn()} />)
 
-      expect(screen.getByText('app.typeSelector.chatbot')).toBeInTheDocument()
+      expect(screen.getByText('app.typeSelector.workflow')).toBeInTheDocument()
       expect(screen.getByRole('button', { name: 'common.operation.clear' })).toBeInTheDocument()
     })
 
     it('should render icon-only trigger when multiple types are selected', () => {
-      render(<AppTypeSelector value={[AppModeEnum.CHAT, AppModeEnum.WORKFLOW]} onChange={vi.fn()} />)
+      render(<AppTypeSelector value={[AppModeEnum.WORKFLOW, AppModeEnum.ADVANCED_CHAT]} onChange={vi.fn()} />)
 
       expect(screen.queryByText('app.typeSelector.all')).not.toBeInTheDocument()
-      expect(screen.queryByText('app.typeSelector.chatbot')).not.toBeInTheDocument()
       expect(screen.queryByText('app.typeSelector.workflow')).not.toBeInTheDocument()
+      expect(screen.queryByText('app.typeSelector.advanced')).not.toBeInTheDocument()
       expect(screen.getByRole('button', { name: 'common.operation.clear' })).toBeInTheDocument()
     })
   })
@@ -73,17 +73,17 @@ describe('AppTypeSelector', () => {
 
     it('should call onChange with appended type when selecting an additional item', () => {
       const onChange = vi.fn()
-      render(<AppTypeSelector value={[AppModeEnum.CHAT]} onChange={onChange} />)
+      render(<AppTypeSelector value={[AppModeEnum.WORKFLOW]} onChange={onChange} />)
 
-      fireEvent.click(screen.getByText('app.typeSelector.chatbot'))
-      fireEvent.click(within(screen.getByRole('tooltip')).getByText('app.typeSelector.agent'))
+      fireEvent.click(screen.getByText('app.typeSelector.workflow'))
+      fireEvent.click(within(screen.getByRole('tooltip')).getByText('app.typeSelector.advanced'))
 
-      expect(onChange).toHaveBeenCalledWith([AppModeEnum.CHAT, AppModeEnum.AGENT_CHAT])
+      expect(onChange).toHaveBeenCalledWith([AppModeEnum.WORKFLOW, AppModeEnum.ADVANCED_CHAT])
     })
 
     it('should clear selection without opening the dropdown when clicking clear button', () => {
       const onChange = vi.fn()
-      render(<AppTypeSelector value={[AppModeEnum.CHAT]} onChange={onChange} />)
+      render(<AppTypeSelector value={[AppModeEnum.WORKFLOW]} onChange={onChange} />)
 
       fireEvent.click(screen.getByRole('button', { name: 'common.operation.clear' }))
 

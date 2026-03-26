@@ -1,6 +1,6 @@
 import type { DuplicateAppModalProps } from '@/app/components/app/duplicate-modal'
-import type { CreateAppModalProps } from '@/app/components/explore/create-app-modal'
 import type { EnvironmentVariable } from '@/app/components/workflow/types'
+import type { AppIconType } from '@/types/app'
 import { useRouter } from 'next/navigation'
 import { useCallback, useState } from 'react'
 import { useTranslation } from 'react-i18next'
@@ -49,7 +49,7 @@ export function useAppInfoActions({ onDetailExpand }: UseAppInfoActionsParams) {
     setActiveModal(null)
   }, [])
 
-  const onEdit: CreateAppModalProps['onConfirm'] = useCallback(async ({
+  const onEdit = useCallback(async ({
     name,
     icon_type,
     icon,
@@ -57,6 +57,14 @@ export function useAppInfoActions({ onDetailExpand }: UseAppInfoActionsParams) {
     description,
     use_icon_as_answer_icon,
     max_active_requests,
+  }: {
+    name: string
+    icon_type: AppIconType
+    icon: string
+    icon_background: string
+    description: string
+    use_icon_as_answer_icon?: boolean
+    max_active_requests?: number | null
   }) => {
     if (!appDetail)
       return

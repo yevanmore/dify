@@ -4,7 +4,8 @@ import {
   useCallback,
 } from 'react'
 import { useNodes } from 'reactflow'
-import { useInputFieldPanel } from '@/app/components/rag-pipeline/hooks'
+// TODO: useInputFieldPanel was removed with rag-pipeline components.
+const useInputFieldPanel = () => ({ closeAllInputFieldPanels: () => {} })
 import Divider from '../../base/divider'
 import {
   useNodesInteractions,

@@ -21,8 +21,6 @@ from core.app.entities.queue_entities import (
     QueueRetrieverResourcesEvent,
 )
 from core.app.entities.task_entities import (
-    AnnotationReply,
-    AnnotationReplyAccount,
     EasyUITaskState,
     MessageFileStreamResponse,
     MessageReplaceStreamResponse,
@@ -36,7 +34,8 @@ from core.tools.signature import sign_tool_file
 from extensions.ext_database import db
 from extensions.ext_redis import redis_client
 from models.model import AppMode, Conversation, MessageAnnotation, MessageFile
-from services.annotation_service import AppAnnotationService
+
+# from services.annotation_service import AppAnnotationService  # Removed: annotation module deleted
 
 logger = logging.getLogger(__name__)
 
@@ -151,22 +150,10 @@ class MessageCycleManager:
     def handle_annotation_reply(self, event: QueueAnnotationReplyEvent) -> MessageAnnotation | None:
         """
         Handle annotation reply.
+        Note: annotation service has been removed; this is a no-op stub.
         :param event: event
         :return:
         """
-        annotation = AppAnnotationService.get_annotation_by_id(event.message_annotation_id)
-        if annotation:
-            account = annotation.account
-            self._task_state.metadata.annotation_reply = AnnotationReply(
-                id=annotation.id,
-                account=AnnotationReplyAccount(
-                    id=annotation.account_id,
-                    name=account.name if account else "Dify user",
-                ),
-            )
-
-            return annotation
-
         return None
 
     def handle_retriever_resources(self, event: QueueRetrieverResourcesEvent):

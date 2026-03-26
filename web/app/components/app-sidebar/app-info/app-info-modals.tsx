@@ -1,14 +1,12 @@
 import type { AppInfoModalType } from './use-app-info-actions'
 import type { DuplicateAppModalProps } from '@/app/components/app/duplicate-modal'
-import type { CreateAppModalProps } from '@/app/components/explore/create-app-modal'
 import type { EnvironmentVariable } from '@/app/components/workflow/types'
-import type { App, AppSSO } from '@/types/app'
+import type { App, AppIconType, AppSSO } from '@/types/app'
 import dynamic from 'next/dynamic'
 import * as React from 'react'
 import { useTranslation } from 'react-i18next'
 
 const SwitchAppModal = dynamic(() => import('@/app/components/app/switch-app-modal'), { ssr: false })
-const CreateAppModal = dynamic(() => import('@/app/components/explore/create-app-modal'), { ssr: false })
 const DuplicateAppModal = dynamic(() => import('@/app/components/app/duplicate-modal'), { ssr: false })
 const Confirm = dynamic(() => import('@/app/components/base/confirm'), { ssr: false })
 const UpdateDSLModal = dynamic(() => import('@/app/components/workflow/update-dsl-modal'), { ssr: false })
@@ -20,7 +18,15 @@ type AppInfoModalsProps = {
   closeModal: () => void
   secretEnvList: EnvironmentVariable[]
   setSecretEnvList: (list: EnvironmentVariable[]) => void
-  onEdit: CreateAppModalProps['onConfirm']
+  onEdit: (params: {
+    name: string
+    icon_type: AppIconType
+    icon: string
+    icon_background: string
+    description: string
+    use_icon_as_answer_icon?: boolean
+    max_active_requests?: number | null
+  }) => void
   onCopy: DuplicateAppModalProps['onConfirm']
   onExport: (include?: boolean) => Promise<void>
   exportCheck: () => void
@@ -34,7 +40,7 @@ const AppInfoModals = ({
   closeModal,
   secretEnvList,
   setSecretEnvList,
-  onEdit,
+  _onEdit,
   onCopy,
   onExport,
   exportCheck,
@@ -52,23 +58,6 @@ const AppInfoModals = ({
           appDetail={appDetail}
           onClose={closeModal}
           onSuccess={closeModal}
-        />
-      )}
-      {activeModal === 'edit' && (
-        <CreateAppModal
-          isEditModal
-          appName={appDetail.name}
-          appIconType={appDetail.icon_type}
-          appIcon={appDetail.icon}
-          appIconBackground={appDetail.icon_background}
-          appIconUrl={appDetail.icon_url}
-          appDescription={appDetail.description}
-          appMode={appDetail.mode}
-          appUseIconAsAnswerIcon={appDetail.use_icon_as_answer_icon}
-          max_active_requests={appDetail.max_active_requests ?? null}
-          show
-          onConfirm={onEdit}
-          onHide={closeModal}
         />
       )}
       {activeModal === 'duplicate' && (

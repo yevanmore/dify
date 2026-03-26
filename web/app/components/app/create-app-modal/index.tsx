@@ -1,12 +1,12 @@
 'use client'
 
 import type { AppIconSelection } from '../../base/app-icon-picker'
-import { RiArrowRightLine, RiArrowRightSLine, RiExchange2Fill } from '@remixicon/react'
+import { RiArrowRightLine, RiExchange2Fill } from '@remixicon/react'
 
 import { useDebounceFn, useKeyPress } from 'ahooks'
 import Image from 'next/image'
 import { useRouter } from 'next/navigation'
-import { useCallback, useEffect, useRef, useState } from 'react'
+import { useCallback, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useContext } from 'use-context-selector'
 import { trackEvent } from '@/app/components/base/amplitude'
@@ -14,7 +14,7 @@ import AppIcon from '@/app/components/base/app-icon'
 import Button from '@/app/components/base/button'
 import Divider from '@/app/components/base/divider'
 import FullScreenModal from '@/app/components/base/fullscreen-modal'
-import { BubbleTextMod, ChatBot, ListSparkle, Logic } from '@/app/components/base/icons/src/vender/solid/communication'
+import { BubbleTextMod } from '@/app/components/base/icons/src/vender/solid/communication'
 import Input from '@/app/components/base/input'
 import Textarea from '@/app/components/base/textarea'
 import { ToastContext } from '@/app/components/base/toast'
@@ -43,23 +43,16 @@ function CreateApp({ onClose, onSuccess, onCreateFromTemplate, defaultAppMode }:
   const { push } = useRouter()
   const { notify } = useContext(ToastContext)
 
-  const [appMode, setAppMode] = useState<AppModeEnum>(defaultAppMode || AppModeEnum.ADVANCED_CHAT)
+  const [appMode, setAppMode] = useState<AppModeEnum>(defaultAppMode || AppModeEnum.WORKFLOW)
   const [appIcon, setAppIcon] = useState<AppIconSelection>({ type: 'emoji', icon: '🤖', background: '#FFEAD5' })
   const [showAppIconPicker, setShowAppIconPicker] = useState(false)
   const [name, setName] = useState('')
   const [description, setDescription] = useState('')
-  const [isAppTypeExpanded, setIsAppTypeExpanded] = useState(false)
-
   const { plan, enableBilling } = useProviderContext()
   const isAppsFull = (enableBilling && plan.usage.buildApps >= plan.total.buildApps)
   const { isCurrentWorkspaceEditor } = useAppContext()
 
   const isCreatingRef = useRef(false)
-
-  useEffect(() => {
-    if (appMode === AppModeEnum.CHAT || appMode === AppModeEnum.AGENT_CHAT || appMode === AppModeEnum.COMPLETION)
-      setIsAppTypeExpanded(true)
-  }, [appMode])
 
   const onCreate = useCallback(async () => {
     if (!appMode) {
@@ -153,61 +146,6 @@ function CreateApp({ onClose, onSuccess, onCreateFromTemplate, defaultAppMode }:
                   />
                 </div>
               </div>
-              <div>
-                <div className="mb-2 flex items-center">
-                  <button
-                    type="button"
-                    className="flex cursor-pointer items-center border-0 bg-transparent p-0"
-                    onClick={() => setIsAppTypeExpanded(!isAppTypeExpanded)}
-                  >
-                    <span className="system-2xs-medium-uppercase text-text-tertiary">{t('newApp.forBeginners', { ns: 'app' })}</span>
-                    <RiArrowRightSLine className={`ml-1 h-4 w-4 text-text-tertiary transition-transform ${isAppTypeExpanded ? 'rotate-90' : ''}`} />
-                  </button>
-                </div>
-                {isAppTypeExpanded && (
-                  <div className="flex flex-row gap-2">
-                    <AppTypeCard
-                      active={appMode === AppModeEnum.CHAT}
-                      title={t('types.chatbot', { ns: 'app' })}
-                      description={t('newApp.chatbotShortDescription', { ns: 'app' })}
-                      icon={(
-                        <div className="flex h-6 w-6 items-center justify-center rounded-md bg-components-icon-bg-blue-solid">
-                          <ChatBot className="h-4 w-4 text-components-avatar-shape-fill-stop-100" />
-                        </div>
-                      )}
-                      onClick={() => {
-                        setAppMode(AppModeEnum.CHAT)
-                      }}
-                    />
-                    <AppTypeCard
-                      active={appMode === AppModeEnum.AGENT_CHAT}
-                      title={t('types.agent', { ns: 'app' })}
-                      description={t('newApp.agentShortDescription', { ns: 'app' })}
-                      icon={(
-                        <div className="flex h-6 w-6 items-center justify-center rounded-md bg-components-icon-bg-violet-solid">
-                          <Logic className="h-4 w-4 text-components-avatar-shape-fill-stop-100" />
-                        </div>
-                      )}
-                      onClick={() => {
-                        setAppMode(AppModeEnum.AGENT_CHAT)
-                      }}
-                    />
-                    <AppTypeCard
-                      active={appMode === AppModeEnum.COMPLETION}
-                      title={t('newApp.completeApp', { ns: 'app' })}
-                      description={t('newApp.completionShortDescription', { ns: 'app' })}
-                      icon={(
-                        <div className="flex h-6 w-6 items-center justify-center rounded-md bg-components-icon-bg-teal-solid">
-                          <ListSparkle className="h-4 w-4 text-components-avatar-shape-fill-stop-100" />
-                        </div>
-                      )}
-                      onClick={() => {
-                        setAppMode(AppModeEnum.COMPLETION)
-                      }}
-                    />
-                  </div>
-                )}
-              </div>
               <Divider style={{ margin: 0 }} />
               <div className="flex items-center space-x-3">
                 <div className="flex-1">
@@ -283,11 +221,8 @@ function CreateApp({ onClose, onSuccess, onCreateFromTemplate, defaultAppMode }:
             <AppPreview mode={appMode} />
             <div className="absolute left-0 right-0 border-b border-b-divider-subtle"></div>
             <div className="flex h-[448px] w-[664px] items-center justify-center" style={{ background: 'repeating-linear-gradient(135deg, transparent, transparent 2px, rgba(16,24,40,0.04) 4px,transparent 3px, transparent 6px)' }}>
-              <AppScreenShot show={appMode === AppModeEnum.CHAT} mode={AppModeEnum.CHAT} />
-              <AppScreenShot show={appMode === AppModeEnum.ADVANCED_CHAT} mode={AppModeEnum.ADVANCED_CHAT} />
-              <AppScreenShot show={appMode === AppModeEnum.AGENT_CHAT} mode={AppModeEnum.AGENT_CHAT} />
-              <AppScreenShot show={appMode === AppModeEnum.COMPLETION} mode={AppModeEnum.COMPLETION} />
               <AppScreenShot show={appMode === AppModeEnum.WORKFLOW} mode={AppModeEnum.WORKFLOW} />
+              <AppScreenShot show={appMode === AppModeEnum.ADVANCED_CHAT} mode={AppModeEnum.ADVANCED_CHAT} />
             </div>
             <div className="absolute left-0 right-0 border-b border-b-divider-subtle"></div>
           </div>
@@ -343,25 +278,13 @@ function AppTypeCard({ icon, title, description, active, onClick }: AppTypeCardP
 function AppPreview({ mode }: { mode: AppModeEnum }) {
   const { t } = useTranslation()
   const modeToPreviewInfoMap = {
-    [AppModeEnum.CHAT]: {
-      title: t('types.chatbot', { ns: 'app' }),
-      description: t('newApp.chatbotUserDescription', { ns: 'app' }),
+    [AppModeEnum.WORKFLOW]: {
+      title: t('types.workflow', { ns: 'app' }),
+      description: t('newApp.workflowUserDescription', { ns: 'app' }),
     },
     [AppModeEnum.ADVANCED_CHAT]: {
       title: t('types.advanced', { ns: 'app' }),
       description: t('newApp.advancedUserDescription', { ns: 'app' }),
-    },
-    [AppModeEnum.AGENT_CHAT]: {
-      title: t('types.agent', { ns: 'app' }),
-      description: t('newApp.agentUserDescription', { ns: 'app' }),
-    },
-    [AppModeEnum.COMPLETION]: {
-      title: t('newApp.completeApp', { ns: 'app' }),
-      description: t('newApp.completionUserDescription', { ns: 'app' }),
-    },
-    [AppModeEnum.WORKFLOW]: {
-      title: t('types.workflow', { ns: 'app' }),
-      description: t('newApp.workflowUserDescription', { ns: 'app' }),
     },
   }
   const previewInfo = modeToPreviewInfoMap[mode]
@@ -378,11 +301,8 @@ function AppPreview({ mode }: { mode: AppModeEnum }) {
 function AppScreenShot({ mode, show }: { mode: AppModeEnum, show: boolean }) {
   const { theme } = useTheme()
   const modeToImageMap = {
-    [AppModeEnum.CHAT]: 'Chatbot',
-    [AppModeEnum.ADVANCED_CHAT]: 'Chatflow',
-    [AppModeEnum.AGENT_CHAT]: 'Agent',
-    [AppModeEnum.COMPLETION]: 'TextGenerator',
     [AppModeEnum.WORKFLOW]: 'Workflow',
+    [AppModeEnum.ADVANCED_CHAT]: 'Chatflow',
   }
   return (
     <picture>
