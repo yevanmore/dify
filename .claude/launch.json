@@ -3,8 +3,8 @@
   "configurations": [
     {
       "name": "web-dev",
-      "runtimeExecutable": "pnpm",
-      "runtimeArgs": ["dev", "-p", "3100"],
+      "runtimeExecutable": "bash",
+      "runtimeArgs": ["-c", "cd web && pnpm dev -p 3100"],
       "port": 3100
     }
   ]

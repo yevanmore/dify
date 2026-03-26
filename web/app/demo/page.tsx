@@ -670,7 +670,27 @@ function StudioPage({ onCreateWorkflow, onCreateAgent }: { onCreateWorkflow: () 
   )
 }
 
-// ─── Home Page ───
+// ─── Home Page — 「最近」视图 ───
+const recentAgents = [
+  { id: 'finance', name: 'Finance Agent', icon: '💰', type: 'long-term' as const, lastUsed: '2 hours ago' },
+  { id: 'code', name: 'Code Agent', icon: '💻', type: 'publish' as const, lastUsed: '1 hour ago' },
+  { id: 'writer', name: 'Writer Agent', icon: '✍️', type: 'publish' as const, lastUsed: 'Yesterday' },
+  { id: 'ops', name: 'Ops Agent', icon: '⚙️', type: 'publish' as const, lastUsed: '3 days ago' },
+]
+
+const recentSessions = [
+  { id: '1', title: 'Fix auth token refresh bug', env: 'project-alpha', agent: 'Code Agent', agentIcon: '💻', time: '18:20' },
+  { id: '2', title: 'Submit March expenses', env: 'Finance Agent', agent: null, agentIcon: '💰', time: 'Yesterday' },
+  { id: '3', title: 'Scale Redis cluster', env: 'infra', agent: 'Ops Agent', agentIcon: '⚙️', time: '20:36' },
+  { id: '4', title: 'Write API documentation', env: 'research-notes', agent: 'Writer Agent', agentIcon: '✍️', time: 'Yesterday' },
+]
+
+const recentApps = [
+  { id: '1', name: 'Expense Report Generator', icon: '🧾', lastUsed: '2 hours ago' },
+  { id: '2', name: 'Weekly Standup Summary', icon: '📋', lastUsed: 'Yesterday' },
+  { id: '3', name: 'API Docs Writer', icon: '📝', lastUsed: '3 days ago' },
+]
+
 function HomePage() {
   return (
     <div className="flex h-full flex-col" style={{ backgroundColor: c.surface }}>
@@ -678,51 +698,59 @@ function HomePage() {
         <h1 className="text-2xl font-semibold" style={{ color: c.textPrimary }}>Welcome back, Evan 👋</h1>
         <p className="mt-1 text-sm" style={{ color: c.textMuted }}>What if… this is where your next idea begins.</p>
 
-        <div className="mt-6 rounded-2xl p-6" style={{ background: `linear-gradient(135deg, ${c.blue} 0%, #001a80 100%)` }}>
-          <span className="rounded-full bg-white/20 px-3 py-1 text-xs font-medium text-white">New</span>
-          <h2 className="mt-3 text-lg font-semibold text-white">Deep Research</h2>
-          <p className="mt-1 text-sm text-white/70">Build powerful research workflows with AI agents</p>
-        </div>
-
-        <h2 className="mt-8 text-sm font-medium" style={{ color: c.textSecondary }}>Continue work with</h2>
+        {/* Recent Agents */}
+        <h2 className="mt-8 text-[11px] font-semibold uppercase tracking-wide" style={{ color: c.textPlaceholder }}>Recent Agents</h2>
         <div className="mt-3 grid grid-cols-4 gap-3">
-          {mockApps.slice(0, 4).map(app => (
-            <div key={app.id} className="flex items-center gap-3 rounded-xl border p-3" style={{ borderColor: c.border, backgroundColor: c.white }}>
-              <div className="flex h-10 w-10 items-center justify-center rounded-lg text-lg" style={{ backgroundColor: c.bg }}>{app.emoji}</div>
-              <div>
-                <p className="text-sm font-medium" style={{ color: c.textPrimary }}>{app.name}</p>
-                <p className="text-xs" style={{ color: c.textMuted }}>
-                  {app.type}
-                  {' '}
-                  ·
-                  {' '}
-                  {app.updated}
-                </p>
+          {recentAgents.map(agent => (
+            <div key={agent.id} className="flex cursor-pointer items-center gap-3 rounded-xl border p-3 transition-shadow hover:shadow-md" style={{ borderColor: c.border, backgroundColor: c.white }}>
+              <span className="flex h-10 w-10 items-center justify-center rounded-lg text-lg" style={{ backgroundColor: c.bg }}>{agent.icon}</span>
+              <div className="min-w-0 flex-1">
+                <p className="truncate text-sm font-medium" style={{ color: c.textPrimary }}>{agent.name}</p>
+                <div className="mt-0.5 flex items-center gap-1.5">
+                  <span
+                    className="rounded px-1 py-0.5 text-[9px] font-semibold"
+                    style={{
+                      backgroundColor: agent.type === 'long-term' ? '#F0FDF4' : c.blueSoft,
+                      color: agent.type === 'long-term' ? '#16A34A' : c.blue,
+                    }}
+                  >
+                    {agent.type === 'long-term' ? 'LT' : 'Pub'}
+                  </span>
+                  <span className="text-[10px]" style={{ color: c.textPlaceholder }}>{agent.lastUsed}</span>
+                </div>
               </div>
             </div>
           ))}
         </div>
 
-        <div className="mt-8 flex items-center justify-between">
-          <h2 className="text-sm font-medium" style={{ color: c.textSecondary }}>Recommended templates from Marketplace</h2>
-          <span className="text-xs font-medium" style={{ color: c.blue }}>View all in Marketplace →</span>
-        </div>
-        <div className="mt-3 grid grid-cols-4 gap-3">
-          {[
-            { name: 'SEO Article Writer', emoji: '✏️', type: 'Workflow', desc: 'Generate SEO-optimized articles from keywords' },
-            { name: 'Meeting Summarizer', emoji: '📝', type: 'Chatflow', desc: 'Summarize meeting recordings into action items' },
-            { name: 'PDF Data Extractor', emoji: '📄', type: 'Workflow', desc: 'Extract structured data from PDF documents' },
-            { name: 'Social Media Manager', emoji: '📱', type: 'Workflow', desc: 'Schedule and generate social media posts' },
-          ].map((tmpl, i) => (
-            <div key={i} className="flex flex-col rounded-xl border p-4" style={{ borderColor: c.border, backgroundColor: c.white }}>
-              <div className="flex items-center gap-3">
-                <div className="flex h-10 w-10 items-center justify-center rounded-lg text-lg" style={{ backgroundColor: c.bg }}>{tmpl.emoji}</div>
-                <div>
-                  <p className="text-sm font-medium" style={{ color: c.textPrimary }}>{tmpl.name}</p>
-                  <p className="text-xs" style={{ color: c.textMuted }}>{tmpl.type}</p>
-                </div>
+        {/* Recent Sessions */}
+        <h2 className="mt-8 text-[11px] font-semibold uppercase tracking-wide" style={{ color: c.textPlaceholder }}>Recent Sessions</h2>
+        <div className="mt-3 flex flex-col gap-1">
+          {recentSessions.map(session => (
+            <div key={session.id} className="flex cursor-pointer items-center gap-3 rounded-xl border px-4 py-3 transition-shadow hover:shadow-sm" style={{ borderColor: c.border, backgroundColor: c.white }}>
+              <span className="flex h-8 w-8 items-center justify-center rounded-lg text-sm" style={{ backgroundColor: c.bg }}>{session.agentIcon}</span>
+              <div className="min-w-0 flex-1">
+                <p className="truncate text-sm font-medium" style={{ color: c.textPrimary }}>{session.title}</p>
+                <p className="mt-0.5 text-xs" style={{ color: c.textMuted }}>
+                  {session.env}
+                  {session.agent && ` · ${session.agent}`}
+                </p>
               </div>
-              <p className="mt-3 text-xs" style={{ color: c.textMuted }}>{tmpl.desc}</p>
+              <span className="shrink-0 text-xs" style={{ color: c.textPlaceholder }}>{session.time}</span>
+            </div>
+          ))}
+        </div>
+
+        {/* Recent Apps */}
+        <h2 className="mt-8 text-[11px] font-semibold uppercase tracking-wide" style={{ color: c.textPlaceholder }}>Recent Apps</h2>
+        <div className="mt-3 grid grid-cols-3 gap-3">
+          {recentApps.map(app => (
+            <div key={app.id} className="flex cursor-pointer items-center gap-3 rounded-xl border p-3 transition-shadow hover:shadow-md" style={{ borderColor: c.border, backgroundColor: c.white }}>
+              <span className="flex h-10 w-10 items-center justify-center rounded-lg text-lg" style={{ backgroundColor: c.bg }}>{app.icon}</span>
+              <div>
+                <p className="text-sm font-medium" style={{ color: c.textPrimary }}>{app.name}</p>
+                <p className="text-[10px]" style={{ color: c.textPlaceholder }}>{app.lastUsed}</p>
+              </div>
             </div>
           ))}
         </div>
@@ -1463,7 +1491,7 @@ export default function DemoPage() {
         collapsed={navCollapsed}
         onToggleCollapse={() => setNavCollapsed(!navCollapsed)}
       />
-      <div className="flex-1 overflow-hidden">
+      <div className="flex flex-1 flex-col overflow-hidden">
         {renderContent()}
       </div>
 

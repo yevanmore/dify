@@ -10,6 +10,17 @@ import Input from '@/app/components/base/input'
 import Textarea from '@/app/components/base/textarea'
 import { useToastContext } from '@/app/components/base/toast'
 import { ACCOUNT_SETTING_TAB } from '@/app/components/header/account-setting/constants'
+import { ModelTypeEnum } from '@/app/components/header/account-setting/model-provider-page/declarations'
+import { useModelList } from '@/app/components/header/account-setting/model-provider-page/hooks'
+import ModelSelector from '@/app/components/header/account-setting/model-provider-page/model-selector'
+import { useAppContext } from '@/context/app-context'
+import { useDocLink } from '@/context/i18n'
+import { useModalContext } from '@/context/modal-context'
+import { DatasetPermission } from '@/models/datasets'
+import { updateDatasetSetting } from '@/service/datasets'
+import { useMembers } from '@/service/use-common'
+import { cn } from '@/utils/classnames'
+import { RetrievalChangeTip, RetrievalSection } from './retrieval-section'
 
 // Stubs for removed datasets components
 enum IndexingType {
@@ -22,23 +33,12 @@ function isReRankModelSelected(_params: { rerankModelList: unknown, retrievalCon
 function checkShowMultiModalTip(_params: Record<string, unknown>) {
   return false
 }
-function IndexMethod(_props: Record<string, unknown>) {
+function IndexMethod(_props: Record<string, unknown>): null {
   return null
 }
-function PermissionSelector(_props: Record<string, unknown>) {
+function PermissionSelector(_props: Record<string, unknown>): null {
   return null
 }
-import { ModelTypeEnum } from '@/app/components/header/account-setting/model-provider-page/declarations'
-import { useModelList } from '@/app/components/header/account-setting/model-provider-page/hooks'
-import ModelSelector from '@/app/components/header/account-setting/model-provider-page/model-selector'
-import { useAppContext } from '@/context/app-context'
-import { useDocLink } from '@/context/i18n'
-import { useModalContext } from '@/context/modal-context'
-import { DatasetPermission } from '@/models/datasets'
-import { updateDatasetSetting } from '@/service/datasets'
-import { useMembers } from '@/service/use-common'
-import { cn } from '@/utils/classnames'
-import { RetrievalChangeTip, RetrievalSection } from './retrieval-section'
 
 type SettingsModalProps = {
   currentDataset: DataSet
@@ -222,7 +222,7 @@ const SettingsModal: FC<SettingsModalProps> = ({
       <div className="overflow-y-auto border-b border-divider-regular p-6 pb-[68px] pt-5">
         <div className={cn(rowClass, 'items-center')}>
           <div className={labelClass}>
-            <div className="system-sm-semibold text-text-secondary">{t('form.name', { ns: 'datasetSettings' })}</div>
+            <div className="text-text-secondary system-sm-semibold">{t('form.name', { ns: 'datasetSettings' })}</div>
           </div>
           <Input
             value={localeCurrentDataset.name}
@@ -233,7 +233,7 @@ const SettingsModal: FC<SettingsModalProps> = ({
         </div>
         <div className={cn(rowClass)}>
           <div className={labelClass}>
-            <div className="system-sm-semibold text-text-secondary">{t('form.desc', { ns: 'datasetSettings' })}</div>
+            <div className="text-text-secondary system-sm-semibold">{t('form.desc', { ns: 'datasetSettings' })}</div>
           </div>
           <div className="w-full">
             <Textarea
@@ -246,7 +246,7 @@ const SettingsModal: FC<SettingsModalProps> = ({
         </div>
         <div className={rowClass}>
           <div className={labelClass}>
-            <div className="system-sm-semibold text-text-secondary">{t('form.permissions', { ns: 'datasetSettings' })}</div>
+            <div className="text-text-secondary system-sm-semibold">{t('form.permissions', { ns: 'datasetSettings' })}</div>
           </div>
           <div className="w-full">
             <PermissionSelector
@@ -262,7 +262,7 @@ const SettingsModal: FC<SettingsModalProps> = ({
         {!!(currentDataset && currentDataset.indexing_technique) && (
           <div className={cn(rowClass)}>
             <div className={labelClass}>
-              <div className="system-sm-semibold text-text-secondary">{t('form.indexMethod', { ns: 'datasetSettings' })}</div>
+              <div className="text-text-secondary system-sm-semibold">{t('form.indexMethod', { ns: 'datasetSettings' })}</div>
             </div>
             <div className="grow">
               <IndexMethod
@@ -279,7 +279,7 @@ const SettingsModal: FC<SettingsModalProps> = ({
         {indexMethod === IndexingType.QUALIFIED && (
           <div className={cn(rowClass)}>
             <div className={labelClass}>
-              <div className="system-sm-semibold text-text-secondary">{t('form.embeddingModel', { ns: 'datasetSettings' })}</div>
+              <div className="text-text-secondary system-sm-semibold">{t('form.embeddingModel', { ns: 'datasetSettings' })}</div>
             </div>
             <div className="w-full">
               <div className="h-8 w-full rounded-lg bg-components-input-bg-normal opacity-60">
