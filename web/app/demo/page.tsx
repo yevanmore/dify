@@ -38,23 +38,27 @@ import {
 import { useState } from 'react'
 import DifyLogo from '@/app/components/base/logo/dify-logo'
 
-// ─── Dify Brand Tokens ───
+// ─── Dify Product Tokens (from dify-ui skill — NOT brand blue #0033FF) ───
 const c = {
-  blue: '#0033FF',
-  blueHover: '#002CD6',
-  blueSoft: 'rgba(0, 51, 255, 0.08)',
-  blueBorder: 'rgba(0, 51, 255, 0.16)',
-  black: '#000000',
+  // Primary
+  blue: '#155AEF', // primary-600
+  blueHover: '#004AEB', // primary-700
+  blueSoft: '#EFF4FF', // primary-50
+  blueBorder: '#D1E0FF', // primary-100
+  // Neutrals
+  black: '#101828', // gray-900
   white: '#FFFFFF',
-  surface: '#F8F9FB',
-  bg: '#F2F4F7',
-  textPrimary: '#000000',
-  textSecondary: '#333333',
-  textMuted: '#666666',
-  textPlaceholder: '#999999',
-  border: 'rgba(0, 0, 0, 0.05)',
-  borderStrong: 'rgba(0, 0, 0, 0.1)',
-  divider: 'rgba(0, 0, 0, 0.05)',
+  surface: '#F9FAFB', // gray-50 (page bg)
+  bg: '#F2F4F7', // gray-100
+  // Text
+  textPrimary: '#101828', // gray-900
+  textSecondary: '#344054', // gray-700
+  textMuted: '#667085', // gray-500
+  textPlaceholder: '#98A2B3', // gray-400
+  // Borders
+  border: '#E4E7EC', // gray-200
+  borderStrong: '#D0D5DD', // gray-300
+  divider: '#E4E7EC', // gray-200
 }
 
 // ─── Agent icon colors ───
@@ -269,7 +273,7 @@ function DemoSidebar({
 // ─── App Card ───
 function AppCard({ app }: { app: typeof mockApps[0] }) {
   return (
-    <div className="group relative flex cursor-pointer flex-col rounded-xl border p-4 transition-shadow hover:shadow-md" style={{ borderColor: c.border, backgroundColor: c.white }}>
+    <div className="group relative flex cursor-pointer flex-col rounded-xl border p-4 transition-shadow hover:shadow-xs" style={{ borderColor: c.border, backgroundColor: c.white }}>
       <div className="flex items-start justify-between">
         <div className="flex items-center gap-3">
           <div className="flex h-10 w-10 items-center justify-center rounded-lg text-xl" style={{ backgroundColor: c.surface }}>{app.emoji}</div>
@@ -319,20 +323,53 @@ function CreateAgentCard({ onClick }: { onClick: () => void }) {
   )
 }
 
-// ─── Mock: Long-term agents (they have their own environment) ───
-const mockLongTermAgents = [
-  { id: 'finance', name: 'Finance Agent', envName: 'Finance Dept', icon: '💰' },
-  { id: 'hr', name: 'HR Agent', envName: 'HR Operations', icon: '👥' },
+// ─── Marketplace Catalog (Tenant Registry) ───
+type CatalogAgent = {
+  id: string
+  name: string
+  icon: string
+  desc: string
+  author: string
+  type: 'publish' | 'longterm'
+  envName?: string
+  downloads: number
+}
+type CatalogApp = { id: string, name: string, emoji: string, desc: string, author: string, downloads: number }
+type CatalogSkill = { id: string, name: string, icon: string, desc: string, author: string, downloads: number }
+
+const catalogAgents: CatalogAgent[] = [
+  { id: 'research', name: 'Research Agent', icon: '🔬', desc: 'Deep research with web search and report generation', author: 'AI Team', type: 'publish', downloads: 234 },
+  { id: 'code', name: 'Code Agent', icon: '💻', desc: 'Code review, refactoring, and bug fixing', author: 'Eng Team', type: 'publish', downloads: 512 },
+  { id: 'writer', name: 'Writer Agent', icon: '✍️', desc: 'Technical writing, docs, and content creation', author: 'Content Team', type: 'publish', downloads: 189 },
+  { id: 'data', name: 'Data Agent', icon: '📊', desc: 'Data analysis, visualization, and reporting', author: 'Data Team', type: 'publish', downloads: 347 },
+  { id: 'ops', name: 'Ops Agent', icon: '⚙️', desc: 'Infrastructure ops, deployment, and monitoring', author: 'SRE Team', type: 'publish', downloads: 156 },
+  { id: 'finance', name: 'Finance Agent', icon: '💰', desc: 'Expense processing, budgets, and financial reports', author: 'Finance', type: 'longterm', envName: 'Finance Dept', downloads: 89 },
+  { id: 'hr', name: 'HR Agent', icon: '👥', desc: 'Onboarding, PTO tracking, and org queries', author: 'HR', type: 'longterm', envName: 'HR Operations', downloads: 67 },
+  { id: 'legal', name: 'Legal Agent', icon: '⚖️', desc: 'Contract review and compliance checking', author: 'Legal', type: 'publish', downloads: 45 },
+  { id: 'design', name: 'Design Agent', icon: '🎨', desc: 'UI feedback, design system checks, and Figma review', author: 'Design Team', type: 'publish', downloads: 78 },
+  { id: 'sales', name: 'Sales Agent', icon: '📈', desc: 'Lead qualification, CRM updates, and outreach drafts', author: 'Sales', type: 'longterm', envName: 'Sales Pipeline', downloads: 123 },
 ]
 
-// ─── Mock: Publish agents (microservices, dispatched into any env) ───
-const mockPublishAgents = [
-  { id: 'research', name: 'Research Agent' },
-  { id: 'code', name: 'Code Agent' },
-  { id: 'writer', name: 'Writer Agent' },
-  { id: 'data', name: 'Data Agent' },
-  { id: 'ops', name: 'Ops Agent' },
+const catalogApps: CatalogApp[] = [
+  { id: 'expense', name: 'Expense Report', emoji: '🧾', desc: 'Submit and track expense reports', author: 'Finance', downloads: 345 },
+  { id: 'standup', name: 'Standup Summary', emoji: '📋', desc: 'Automated daily standup summaries', author: 'Eng Team', downloads: 567 },
+  { id: 'api-docs', name: 'API Doc Writer', emoji: '📝', desc: 'Generate API docs from OpenAPI specs', author: 'Eng Team', downloads: 234 },
+  { id: 'translator', name: 'Translation Hub', emoji: '🌍', desc: 'Multi-language translation for docs', author: 'Content', downloads: 189 },
+  { id: 'onboard', name: 'Onboarding Guide', emoji: '🎓', desc: 'Interactive new employee onboarding', author: 'HR', downloads: 145 },
 ]
+
+const catalogSkills: CatalogSkill[] = [
+  { id: 'web-search', name: 'Web Search', icon: '🔍', desc: 'Search the web for real-time information', author: 'Platform', downloads: 890 },
+  { id: 'code-exec', name: 'Code Interpreter', icon: '▶️', desc: 'Execute Python code in a sandbox', author: 'Platform', downloads: 756 },
+  { id: 'browser', name: 'Browser Agent', icon: '🌐', desc: 'Navigate and interact with web pages', author: 'Platform', downloads: 432 },
+  { id: 'email', name: 'Email Send', icon: '📧', desc: 'Send emails via SMTP or API', author: 'IT', downloads: 321 },
+  { id: 'slack', name: 'Slack Integration', icon: '💬', desc: 'Post messages and read channels', author: 'IT', downloads: 456 },
+  { id: 'github', name: 'GitHub Actions', icon: '🐙', desc: 'Create PRs, issues, and read repos', author: 'Eng Team', downloads: 567 },
+]
+
+// Derive simple arrays for backward compat
+const mockLongTermAgents = catalogAgents.filter(a => a.type === 'longterm').map(a => ({ id: a.id, name: a.name, envName: a.envName!, icon: a.icon }))
+const mockPublishAgents = catalogAgents.filter(a => a.type === 'publish').map(a => ({ id: a.id, name: a.name }))
 
 // ─── Mock: User's environments ───
 const mockUserEnvs = [
@@ -342,7 +379,10 @@ const mockUserEnvs = [
 ]
 
 // ─── Window Agent Page (Unified Session UI — NOT an agent) ───
-function WindowAgentPage() {
+function WindowAgentPage({ subscribedAgents, onToggleSubscribe: _onToggleSubscribe }: { subscribedAgents: Set<string>, onToggleSubscribe: (id: string) => void }) {
+  // Filter publish agents by subscription
+  const availablePublishAgents = catalogAgents.filter(a => a.type === 'publish' && subscribedAgents.has(a.id))
+  const availableLongTermAgents = catalogAgents.filter(a => a.type === 'longterm' && subscribedAgents.has(a.id))
   const [chatCollapsed, setChatCollapsed] = useState(false)
   const [showNewChat, setShowNewChat] = useState(false)
   const [currentEnv, setCurrentEnv] = useState<string | null>(null)
@@ -444,7 +484,7 @@ function WindowAgentPage() {
         {!currentEnv
           ? (
               <div className="flex flex-1 flex-col items-center justify-center px-8">
-                <div className="flex h-14 w-14 items-center justify-center rounded-2xl" style={{ backgroundColor: c.blueSoft }}>
+                <div className="flex h-14 w-14 items-center justify-center rounded-xl" style={{ backgroundColor: c.blueSoft }}>
                   <RiWindowFill className="h-7 w-7" style={{ color: c.blue }} />
                 </div>
                 <h2 className="mt-4 text-lg font-semibold" style={{ color: c.textPrimary }}>Start a session</h2>
@@ -469,7 +509,7 @@ function WindowAgentPage() {
 
                   <p className="mb-2 mt-5 text-[11px] font-semibold uppercase tracking-wide" style={{ color: c.textPlaceholder }}>Long-term Agents</p>
                   <div className="flex flex-col gap-1.5">
-                    {mockLongTermAgents.map(agent => (
+                    {availableLongTermAgents.map(agent => (
                       <button key={agent.id} type="button" onClick={() => setCurrentEnv(agent.id)} className="flex items-center gap-3 rounded-xl border px-4 py-3 text-left transition-all hover:shadow-sm" style={{ borderColor: c.border, backgroundColor: c.white }}>
                         <span className="text-lg">{agent.icon}</span>
                         <div className="flex-1">
@@ -487,7 +527,7 @@ function WindowAgentPage() {
               <>
                 {/* Active session — ready to chat */}
                 <div className="flex flex-1 flex-col items-center justify-center">
-                  <div className="flex h-14 w-14 items-center justify-center rounded-2xl" style={{ backgroundColor: c.blueSoft }}>
+                  <div className="flex h-14 w-14 items-center justify-center rounded-xl" style={{ backgroundColor: c.blueSoft }}>
                     <RiRobotFill className="h-7 w-7" style={{ color: c.blue }} />
                   </div>
                   <h2 className="mt-4 text-lg font-semibold" style={{ color: c.textPrimary }}>
@@ -502,7 +542,7 @@ function WindowAgentPage() {
 
                 {/* Input area */}
                 <div className="px-6 pb-6">
-                  <div className="rounded-2xl border" style={{ borderColor: c.borderStrong, backgroundColor: c.white }}>
+                  <div className="rounded-xl border" style={{ borderColor: c.borderStrong, backgroundColor: c.white }}>
                     <div className="min-h-[56px] px-4 pb-1 pt-3">
                       <p className="text-sm" style={{ color: c.textPlaceholder }}>Type a message... (Shift+Enter for new line)</p>
                     </div>
@@ -534,9 +574,9 @@ function WindowAgentPage() {
                           </button>
 
                           {showAgentPicker && (
-                            <div className="absolute bottom-10 left-0 z-50 w-[220px] rounded-xl border-[0.5px] p-1" style={{ backgroundColor: c.white, borderColor: c.border, boxShadow: '0 10px 25px -5px rgba(0,0,0,0.1)' }}>
+                            <div className="absolute bottom-10 left-0 z-50 w-[220px] rounded-xl border-[0.5px] p-1" style={{ backgroundColor: c.white, borderColor: c.border, boxShadow: '0 4px 6px -2px rgba(16,24,40,0.03), 0 12px 16px -4px rgba(16,24,40,0.08)' }}>
                               <p className="px-3 py-1.5 text-[10px] font-semibold uppercase tracking-wide" style={{ color: c.textPlaceholder }}>Publish Agents</p>
-                              {mockPublishAgents.map(agent => (
+                              {availablePublishAgents.map(agent => (
                                 <button
                                   key={agent.id}
                                   type="button"
@@ -585,7 +625,7 @@ function WindowAgentPage() {
       {/* New Chat modal — pick environment */}
       {showNewChat && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
-          <div className="w-[420px] rounded-2xl p-6" style={{ backgroundColor: c.white }}>
+          <div className="w-[420px] rounded-xl p-6" style={{ backgroundColor: c.white }}>
             <h2 className="text-lg font-semibold" style={{ color: c.textPrimary }}>New Session</h2>
             <p className="mt-1 text-sm" style={{ color: c.textMuted }}>Select an environment to work in.</p>
 
@@ -611,7 +651,7 @@ function WindowAgentPage() {
 
             <p className="mb-2 mt-4 text-[11px] font-semibold uppercase tracking-wide" style={{ color: c.textPlaceholder }}>Long-term Agents</p>
             <div className="flex flex-col gap-1.5">
-              {mockLongTermAgents.map(agent => (
+              {availableLongTermAgents.map(agent => (
                 <button
                   key={agent.id}
                   type="button"
@@ -702,7 +742,7 @@ function HomePage() {
         <h2 className="mt-8 text-[11px] font-semibold uppercase tracking-wide" style={{ color: c.textPlaceholder }}>Recent Agents</h2>
         <div className="mt-3 grid grid-cols-4 gap-3">
           {recentAgents.map(agent => (
-            <div key={agent.id} className="flex cursor-pointer items-center gap-3 rounded-xl border p-3 transition-shadow hover:shadow-md" style={{ borderColor: c.border, backgroundColor: c.white }}>
+            <div key={agent.id} className="flex cursor-pointer items-center gap-3 rounded-xl border p-3 transition-shadow hover:shadow-xs" style={{ borderColor: c.border, backgroundColor: c.white }}>
               <span className="flex h-10 w-10 items-center justify-center rounded-lg text-lg" style={{ backgroundColor: c.bg }}>{agent.icon}</span>
               <div className="min-w-0 flex-1">
                 <p className="truncate text-sm font-medium" style={{ color: c.textPrimary }}>{agent.name}</p>
@@ -745,7 +785,7 @@ function HomePage() {
         <h2 className="mt-8 text-[11px] font-semibold uppercase tracking-wide" style={{ color: c.textPlaceholder }}>Recent Apps</h2>
         <div className="mt-3 grid grid-cols-3 gap-3">
           {recentApps.map(app => (
-            <div key={app.id} className="flex cursor-pointer items-center gap-3 rounded-xl border p-3 transition-shadow hover:shadow-md" style={{ borderColor: c.border, backgroundColor: c.white }}>
+            <div key={app.id} className="flex cursor-pointer items-center gap-3 rounded-xl border p-3 transition-shadow hover:shadow-xs" style={{ borderColor: c.border, backgroundColor: c.white }}>
               <span className="flex h-10 w-10 items-center justify-center rounded-lg text-lg" style={{ backgroundColor: c.bg }}>{app.icon}</span>
               <div>
                 <p className="text-sm font-medium" style={{ color: c.textPrimary }}>{app.name}</p>
@@ -849,7 +889,7 @@ function AppsPage() {
 
       <div className="grid grid-cols-2 gap-4">
         {mockInstantApps.map(app => (
-          <div key={app.id} className="group cursor-pointer rounded-xl border p-5 transition-shadow hover:shadow-md" style={{ borderColor: c.border, backgroundColor: c.white }}>
+          <div key={app.id} className="group cursor-pointer rounded-xl border p-5 transition-shadow hover:shadow-xs" style={{ borderColor: c.border, backgroundColor: c.white }}>
             <div className="flex items-start justify-between">
               <div className="flex items-center gap-3">
                 <span className="flex h-10 w-10 items-center justify-center rounded-lg text-xl" style={{ backgroundColor: c.surface }}>{app.icon}</span>
@@ -1243,7 +1283,7 @@ function CreateAgentWizard({ onClose }: { onClose: () => void }) {
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
-      <div className="w-[560px] rounded-2xl" style={{ backgroundColor: c.white }}>
+      <div className="w-[560px] rounded-xl" style={{ backgroundColor: c.white }}>
         {/* Header */}
         <div className="flex items-center justify-between border-b px-6 py-4" style={{ borderColor: c.divider }}>
           <div>
@@ -1450,15 +1490,241 @@ function CreateAgentWizard({ onClose }: { onClose: () => void }) {
   )
 }
 
-// ─── Marketplace Page ───
-function MarketplacePage() {
+// ─── Marketplace Page (Tenant Registry) ───
+function MarketplacePage({ installedAgents, onInstallAgent, installedApps, onInstallApp, installedSkills, onInstallSkill }: {
+  installedAgents: Set<string>
+  onInstallAgent: (id: string) => void
+  installedApps: Set<string>
+  onInstallApp: (id: string) => void
+  installedSkills: Set<string>
+  onInstallSkill: (id: string) => void
+}) {
+  const [tab, setTab] = useState<'agents' | 'apps' | 'skills'>('agents')
+  const [detailAgent, setDetailAgent] = useState<CatalogAgent | null>(null)
+
+  const tabs = [
+    { key: 'agents' as const, label: 'Agents', count: catalogAgents.length },
+    { key: 'apps' as const, label: 'Instant Apps', count: catalogApps.length },
+    { key: 'skills' as const, label: 'Skills', count: catalogSkills.length },
+  ]
+
   return (
-    <div className="flex h-full flex-col p-8" style={{ backgroundColor: c.surface }}>
-      <h1 className="text-xl font-semibold" style={{ color: c.textPrimary }}>Marketplace</h1>
-      <p className="mt-1 text-sm" style={{ color: c.textMuted }}>Discover plugins and templates</p>
-      <div className="mt-6 rounded-xl border p-12 text-center" style={{ borderColor: c.border, backgroundColor: c.white }}>
-        <p className="text-sm" style={{ color: c.textMuted }}>Connect to backend to browse the marketplace</p>
+    <div className="flex h-full flex-col" style={{ backgroundColor: c.surface }}>
+      {/* Header */}
+      <div className="border-b px-8 pb-0 pt-6" style={{ borderColor: c.divider, backgroundColor: c.white }}>
+        <h1 className="text-xl font-semibold" style={{ color: c.textPrimary }}>Marketplace</h1>
+        <p className="mt-1 text-sm" style={{ color: c.textMuted }}>Browse and install assets from your organization</p>
+        {/* Tabs */}
+        <div className="mt-4 flex gap-6">
+          {tabs.map(t => (
+            <button
+              key={t.key}
+              type="button"
+              onClick={() => setTab(t.key)}
+              className="relative pb-3 text-sm font-medium transition-colors"
+              style={{ color: tab === t.key ? c.blue : c.textMuted }}
+            >
+              {t.label}
+              <span className="ml-1.5 rounded-full px-1.5 py-0.5 text-[10px]" style={{ backgroundColor: tab === t.key ? c.blueSoft : c.bg, color: tab === t.key ? c.blue : c.textPlaceholder }}>{t.count}</span>
+              {tab === t.key && <div className="absolute bottom-0 left-0 right-0 h-0.5 rounded-full" style={{ backgroundColor: c.blue }} />}
+            </button>
+          ))}
+        </div>
       </div>
+
+      {/* Content */}
+      <div className="flex-1 overflow-y-auto p-8">
+        {tab === 'agents' && (
+          <div className="grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-3">
+            {catalogAgents.map((agent) => {
+              const downloaded = installedAgents.has(agent.id)
+              return (
+                <div key={agent.id} className="flex flex-col rounded-xl border p-5 transition-shadow hover:shadow-xs" style={{ borderColor: c.border, backgroundColor: c.white }}>
+                  <div className="flex items-start justify-between">
+                    <div className="flex items-center gap-3">
+                      <div className="flex h-10 w-10 items-center justify-center rounded-lg text-xl" style={{ backgroundColor: c.surface }}>{agent.icon}</div>
+                      <div>
+                        <h3 className="text-sm font-semibold" style={{ color: c.textPrimary }}>{agent.name}</h3>
+                        <div className="flex items-center gap-2">
+                          <span className="text-xs" style={{ color: c.textMuted }}>{agent.author}</span>
+                          <span
+                            className="rounded px-1.5 py-0.5 text-[10px] font-medium"
+                            style={{
+                              backgroundColor: agent.type === 'longterm' ? '#F0FDF4' : c.blueSoft,
+                              color: agent.type === 'longterm' ? '#16A34A' : c.blue,
+                            }}
+                          >
+                            {agent.type === 'longterm' ? 'Long-term' : 'Publish'}
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                    <button type="button" onClick={() => setDetailAgent(agent)} className="rounded-md p-1 hover:bg-black/5">
+                      <RiMoreLine className="h-4 w-4" style={{ color: c.textMuted }} />
+                    </button>
+                  </div>
+                  <p className="mt-3 flex-1 text-xs leading-5" style={{ color: c.textMuted }}>{agent.desc}</p>
+                  <div className="mt-4 flex items-center justify-between border-t pt-3" style={{ borderColor: c.divider }}>
+                    <span className="text-xs" style={{ color: c.textPlaceholder }}>
+                      {agent.downloads}
+                      {' '}
+                      downloads
+                    </span>
+                    <button
+                      type="button"
+                      onClick={() => !downloaded && onInstallAgent(agent.id)}
+                      className="rounded-lg px-3 py-1.5 text-xs font-medium transition-all"
+                      style={{
+                        backgroundColor: downloaded ? c.surface : c.blue,
+                        color: downloaded ? c.textSecondary : c.white,
+                        border: downloaded ? `1px solid ${c.borderStrong}` : 'none',
+                      }}
+                    >
+                      {downloaded ? 'Downloaded ✓' : 'Download'}
+                    </button>
+                  </div>
+                </div>
+              )
+            })}
+          </div>
+        )}
+
+        {tab === 'apps' && (
+          <div className="grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-3">
+            {catalogApps.map((app) => {
+              const installed = installedApps.has(app.id)
+              return (
+                <div key={app.id} className="flex flex-col rounded-xl border p-5 transition-shadow hover:shadow-xs" style={{ borderColor: c.border, backgroundColor: c.white }}>
+                  <div className="flex items-center gap-3">
+                    <div className="flex h-10 w-10 items-center justify-center rounded-lg text-xl" style={{ backgroundColor: c.surface }}>{app.emoji}</div>
+                    <div>
+                      <h3 className="text-sm font-semibold" style={{ color: c.textPrimary }}>{app.name}</h3>
+                      <span className="text-xs" style={{ color: c.textMuted }}>{app.author}</span>
+                    </div>
+                  </div>
+                  <p className="mt-3 flex-1 text-xs leading-5" style={{ color: c.textMuted }}>{app.desc}</p>
+                  <div className="mt-4 flex items-center justify-between border-t pt-3" style={{ borderColor: c.divider }}>
+                    <span className="text-xs" style={{ color: c.textPlaceholder }}>
+                      {app.downloads}
+                      {' '}
+                      installs
+                    </span>
+                    <button
+                      type="button"
+                      onClick={() => !installed && onInstallApp(app.id)}
+                      className="rounded-lg px-3 py-1.5 text-xs font-medium"
+                      style={{ backgroundColor: installed ? c.surface : c.blue, color: installed ? c.textSecondary : c.white, border: installed ? `1px solid ${c.borderStrong}` : 'none' }}
+                    >
+                      {installed ? 'Installed ✓' : 'Install'}
+                    </button>
+                  </div>
+                </div>
+              )
+            })}
+          </div>
+        )}
+
+        {tab === 'skills' && (
+          <div className="grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-3">
+            {catalogSkills.map((skill) => {
+              const installed = installedSkills.has(skill.id)
+              return (
+                <div key={skill.id} className="flex flex-col rounded-xl border p-5 transition-shadow hover:shadow-xs" style={{ borderColor: c.border, backgroundColor: c.white }}>
+                  <div className="flex items-center gap-3">
+                    <div className="flex h-10 w-10 items-center justify-center rounded-lg text-xl" style={{ backgroundColor: c.surface }}>{skill.icon}</div>
+                    <div>
+                      <h3 className="text-sm font-semibold" style={{ color: c.textPrimary }}>{skill.name}</h3>
+                      <span className="text-xs" style={{ color: c.textMuted }}>{skill.author}</span>
+                    </div>
+                  </div>
+                  <p className="mt-3 flex-1 text-xs leading-5" style={{ color: c.textMuted }}>{skill.desc}</p>
+                  <div className="mt-4 flex items-center justify-between border-t pt-3" style={{ borderColor: c.divider }}>
+                    <span className="text-xs" style={{ color: c.textPlaceholder }}>
+                      {skill.downloads}
+                      {' '}
+                      installs
+                    </span>
+                    <button
+                      type="button"
+                      onClick={() => !installed && onInstallSkill(skill.id)}
+                      className="rounded-lg px-3 py-1.5 text-xs font-medium"
+                      style={{ backgroundColor: installed ? c.surface : c.blue, color: installed ? c.textSecondary : c.white, border: installed ? `1px solid ${c.borderStrong}` : 'none' }}
+                    >
+                      {installed ? 'Installed ✓' : 'Install'}
+                    </button>
+                  </div>
+                </div>
+              )
+            })}
+          </div>
+        )}
+      </div>
+
+      {/* Agent Detail Drawer */}
+      {detailAgent && (
+        <div className="fixed inset-0 z-50 flex justify-end bg-black/30" onClick={() => setDetailAgent(null)}>
+          <div className="h-full w-[420px] overflow-y-auto border-l p-6" style={{ backgroundColor: c.white, borderColor: c.divider }} onClick={e => e.stopPropagation()}>
+            <div className="flex items-start justify-between">
+              <div className="flex items-center gap-3">
+                <div className="flex h-12 w-12 items-center justify-center rounded-xl text-2xl" style={{ backgroundColor: c.surface }}>{detailAgent.icon}</div>
+                <div>
+                  <h2 className="text-lg font-semibold" style={{ color: c.textPrimary }}>{detailAgent.name}</h2>
+                  <span className="text-xs" style={{ color: c.textMuted }}>
+                    by
+                    {detailAgent.author}
+                  </span>
+                </div>
+              </div>
+              <button type="button" onClick={() => setDetailAgent(null)} className="rounded-lg p-1 hover:bg-black/5">✕</button>
+            </div>
+            <div className="mt-4 flex gap-2">
+              <span
+                className="rounded px-2 py-1 text-xs font-medium"
+                style={{
+                  backgroundColor: detailAgent.type === 'longterm' ? '#F0FDF4' : c.blueSoft,
+                  color: detailAgent.type === 'longterm' ? '#16A34A' : c.blue,
+                }}
+              >
+                {detailAgent.type === 'longterm' ? 'Long-term Agent' : 'Publish Agent'}
+              </span>
+              <span className="rounded border px-2 py-1 text-xs" style={{ borderColor: c.borderStrong, color: c.textMuted }}>
+                {detailAgent.downloads}
+                {' '}
+                installs
+              </span>
+            </div>
+            <p className="mt-4 text-sm leading-6" style={{ color: c.textSecondary }}>{detailAgent.desc}</p>
+
+            {detailAgent.type === 'longterm' && detailAgent.envName && (
+              <div className="mt-4 rounded-lg border p-3" style={{ borderColor: c.border, backgroundColor: c.surface }}>
+                <div className="flex items-center gap-2">
+                  <RiFolderLine className="h-4 w-4" style={{ color: c.textMuted }} />
+                  <span className="text-xs font-medium" style={{ color: c.textSecondary }}>
+                    Environment:
+                    {detailAgent.envName}
+                  </span>
+                </div>
+                <p className="mt-1 text-xs" style={{ color: c.textPlaceholder }}>This agent runs in its own persistent environment. All subscribers share the same context.</p>
+              </div>
+            )}
+
+            <div className="mt-6">
+              <button
+                type="button"
+                onClick={() => {
+                  if (!installedAgents.has(detailAgent.id))
+                    onInstallAgent(detailAgent.id)
+                  setDetailAgent(null)
+                }}
+                className="w-full rounded-lg px-4 py-2.5 text-sm font-medium text-white"
+                style={{ backgroundColor: installedAgents.has(detailAgent.id) ? c.surface : c.blue, color: installedAgents.has(detailAgent.id) ? c.textSecondary : c.white, border: installedAgents.has(detailAgent.id) ? `1px solid ${c.borderStrong}` : 'none' }}
+              >
+                {installedAgents.has(detailAgent.id) ? 'Already in Workspace ✓' : 'Download to Workspace'}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   )
 }
@@ -1470,16 +1736,58 @@ export default function DemoPage() {
   const [showCreateModal, setShowCreateModal] = useState(false)
   const [showAgentPlaceholder, setShowAgentPlaceholder] = useState(false)
 
+  // Marketplace: downloaded to workspace (clone)
+  const [installedAgents, setInstalledAgents] = useState<Set<string>>(() => new Set(['research', 'code', 'writer', 'data', 'ops', 'finance', 'hr']))
+  const [installedApps, setInstalledApps] = useState<Set<string>>(() => new Set(['expense', 'standup']))
+  const [installedSkills, setInstalledSkills] = useState<Set<string>>(() => new Set(['web-search', 'code-exec']))
+
+  // Studio/Apps: subscribed agents (affects Window Agent dispatch list)
+  const [subscribedAgents, setSubscribedAgents] = useState<Set<string>>(() => new Set(['research', 'code', 'writer', 'ops', 'finance', 'hr']))
+
+  const installAgent = (id: string) => {
+    setInstalledAgents(prev => new Set(prev).add(id))
+    // Auto-subscribe on first download
+    setSubscribedAgents(prev => new Set(prev).add(id))
+  }
+  const toggleSubscribe = (id: string) => {
+    setSubscribedAgents((prev) => {
+      const next = new Set(prev)
+      if (next.has(id))
+        next.delete(id)
+      else next.add(id)
+      return next
+    })
+  }
+  const installApp = (id: string) => setInstalledApps(prev => new Set(prev).add(id))
+  const installSkill = (id: string) => setInstalledSkills(prev => new Set(prev).add(id))
+
   const renderContent = () => {
     switch (activeNav) {
-      case 'home': return <HomePage />
-      case 'window-agent': return <WindowAgentPage />
-      case 'studio': return <StudioPage onCreateWorkflow={() => setShowCreateModal(true)} onCreateAgent={() => setShowAgentPlaceholder(true)} />
-      case 'apps': return <AppsPage />
-      case 'drive': return <DrivePage />
-      case 'integrations': return <IntegrationsPage />
-      case 'marketplace': return <MarketplacePage />
-      default: return <HomePage />
+      case 'home':
+        return <HomePage />
+      case 'window-agent':
+        return <WindowAgentPage subscribedAgents={subscribedAgents} onToggleSubscribe={toggleSubscribe} />
+      case 'studio':
+        return <StudioPage onCreateWorkflow={() => setShowCreateModal(true)} onCreateAgent={() => setShowAgentPlaceholder(true)} />
+      case 'apps':
+        return <AppsPage />
+      case 'drive':
+        return <DrivePage />
+      case 'integrations':
+        return <IntegrationsPage />
+      case 'marketplace':
+        return (
+          <MarketplacePage
+            installedAgents={installedAgents}
+            onInstallAgent={installAgent}
+            installedApps={installedApps}
+            onInstallApp={installApp}
+            installedSkills={installedSkills}
+            onInstallSkill={installSkill}
+          />
+        )
+      default:
+        return <HomePage />
     }
   }
 
@@ -1498,7 +1806,7 @@ export default function DemoPage() {
       {/* Create Workflow Modal */}
       {showCreateModal && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
-          <div className="w-[480px] rounded-2xl p-6" style={{ backgroundColor: c.white }}>
+          <div className="w-[480px] rounded-xl p-6" style={{ backgroundColor: c.white }}>
             <h2 className="text-lg font-semibold" style={{ color: c.textPrimary }}>Create New Workflow</h2>
             <p className="mt-1 text-sm" style={{ color: c.textMuted }}>Build an automated workflow from scratch</p>
             <div className="mt-6">
